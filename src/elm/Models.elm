@@ -6,6 +6,9 @@ type State
     | Start
     | Over
 
+type alias Level =
+    { size : Int
+    }
 
 type alias Enemy =
     { x : Int
@@ -15,7 +18,8 @@ type alias Enemy =
 
 
 type alias Model =
-    { state : State
+    { level : Level
+    , state : State
     , x : Int
     , y : Int
     , enemies : List Enemy
