@@ -71,26 +71,21 @@ viewGridBackground model gridElemenSize =
 viewPlayer : Model -> Int -> Html Msg 
 viewPlayer model gridElemenSize =
     gridElement model.x model.y gridElemenSize "#d9d9d9"
-    -- rect [ 
-    --     x (toString (model.x * gridElemenSize + 1)), 
-    --     y (toString (model.y * gridElemenSize + 1)), 
-    --     width (toString (gridElemenSize - 2)), 
-    --     height (toString (gridElemenSize - 2)), 
-    --     fill "#d9d9d9" ] []
 
 viewEnemies : Model -> Int -> List (Html Msg)
 viewEnemies model gridElemenSize =
      (model.enemies
         |> List.map
             (\e ->
-                rect
-                    [ x (toString (e.x * gridElemenSize + 1))
-                    , y (toString (e.y * gridElemenSize + 1))
-                    , width (toString (gridElemenSize - 2))
-                    , height (toString (gridElemenSize - 2))
-                    , fill "#ff6666"
-                    ]
-                    []
+                gridElement e.x e.y gridElemenSize "#ff6666"
+                -- rect
+                --     [ x (toString (e.x * gridElemenSize + 1))
+                --     , y (toString (e.y * gridElemenSize + 1))
+                --     , width (toString (gridElemenSize - 2))
+                --     , height (toString (gridElemenSize - 2))
+                --     , fill "#ff6666"
+                --     ]
+                --     []
             )
     )
 
