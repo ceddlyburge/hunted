@@ -32,36 +32,34 @@ initialModel =
     , enemies = [ Enemy (Position 0 0) 0.0  ]
     }
 
+moveUp : Position -> Position
+moveUp position =
+        { position | y = max 0 (position.y - 1) }
+
+moveDown : Position -> Position
+moveDown position =
+        { position | y = min 4 (position.y + 1) }
+
+moveLeft : Position -> Position
+moveLeft position =
+        { position | x = max 0 (position.x - 1) }
+
+moveRight : Position -> Position
+moveRight position =
+        { position | x = min 4 (position.x + 1) }
+
 keyDown : KeyCode -> Model -> Model
 keyDown keyCode model =
     case keyCode of
         38 ->
-            if model.position.y > 0 then
-                { model | position = Position model.position.x (model.position.y - 1) }
-            else
-                model
+                { model | position = (moveUp model.position) }
         40 ->
-            if model.position.y < 4 then
-                { model | position = Position model.position.x (model.position.y + 1) }
-            else
-                model
-
+                { model | position = (moveDown model.position) }
         37 ->
-            if model.position.x > 0 then
-                { model | position = Position (model.position.x - 1)  model.position.y }
-            else
-                model
-
+                { model | position = (moveLeft model.position) }
         39 ->
-            if model.position.x < 4 then
-                { model | position = Position (model.position.x + 1)  model.position.y }
-            else
-                model
-
+                { model | position = (moveRight model.position) }
         27 ->
-            { model
-                | state = Start
-            }
-
+            { model | state = Start }
         _ ->
              model
