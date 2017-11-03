@@ -10,6 +10,10 @@ type alias Level =
     { size : Int
     }
 
+type alias Position = 
+    { x: Int
+    , y : Int }
+
 type alias Enemy =
     { x : Int
     , y : Int

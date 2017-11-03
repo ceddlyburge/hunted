@@ -7,7 +7,7 @@ import Html.Attributes exposing (style)
 import Html.Events
 import Svg exposing (svg, polygon, circle, rect)
 import Svg.Attributes exposing (version, viewBox, points, fill, width, height, x, y)
-import Util exposing (grid, gridElement)
+import Util exposing (grid, grid2, gridElement, gridElement2)
 
 
 view : Model -> Html Msg
@@ -57,15 +57,13 @@ viewGame model =
 
 viewGridBackground : Model -> Int -> List (Html Msg)
 viewGridBackground model gridElementSize =
-    (grid model.level.size model.level.size)
-        |> List.map 
-            (\( a, b ) -> 
-                gridElement a b gridElementSize "#000000")
+    List.map  (gridElement2 gridElementSize "#000000") (grid2 model.level.size model.level.size)
+    --List.map  (\( a, b ) -> gridElement a b gridElementSize "#000000") (grid model.level.size model.level.size)
 
 
 viewPlayer : Model -> Int -> Html Msg 
 viewPlayer model gridElemenSize =
-    gridElement model.x model.y gridElemenSize "#d9d9d9"
+    gridElement gridElemenSize "#d9d9d9" model.x model.y 
 
 viewEnemies : Model -> Int -> List (Html Msg)
 viewEnemies model gridElementSize =
@@ -73,7 +71,7 @@ viewEnemies model gridElementSize =
 
 viewEnemy : Int -> Enemy -> Html Msg
 viewEnemy gridElemenSize enemy  =
-    gridElement enemy.x enemy.y gridElemenSize "#ff6666"
+    gridElement gridElemenSize "#ff6666" enemy.x enemy.y 
 
 viewStart : Model -> Html Msg
 viewStart model =
