@@ -29,7 +29,7 @@ initialModel =
     { level = Level 5
     , state = Start
     , position = Position 2 2
-    , enemies = [ Enemy 0 0 0.0 ]
+    , enemies = [ Enemy (Position 0 0) 0.0  ]
     }
 
 keyDown : KeyCode -> Model -> Model
@@ -65,39 +65,3 @@ keyDown keyCode model =
 
         _ ->
              model
-
-
--- keyDown : KeyCode -> Model -> Model
--- keyDown keyCode model =
---     case keyCode of
---         38 ->
---             if model.position.y > 0 then
---                 { model | y = model.y - 1 }
---             else
---                 model
-
---         40 ->
---             if model.y < 4 then
---                 { model | y = model.y + 1 }
---             else
---                 model
-
---         37 ->
---             if model.x > 0 then
---                 { model | x = model.x - 1 }
---             else
---                 model
-
---         39 ->
---             if model.x < 4 then
---                 { model | x = model.x + 1 }
---             else
---                 model
-
---         27 ->
---             { model
---                 | state = Start
---             }
-
---         _ ->
---             model

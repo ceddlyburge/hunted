@@ -71,7 +71,7 @@ viewEnemies model gridElementSize =
 
 viewEnemy : Int -> Enemy -> Html Msg
 viewEnemy gridElemenSize enemy  =
-    gridElement gridElemenSize "#ff6666" enemy.x enemy.y 
+    gridElement2 gridElemenSize "#ff6666" enemy.position 
 
 viewStart : Model -> Html Msg
 viewStart model =

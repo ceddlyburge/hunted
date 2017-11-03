@@ -15,8 +15,7 @@ type alias Position =
     , y : Int }
 
 type alias Enemy =
-    { x : Int
-    , y : Int
+    { position : Position
     , energy : Float
     }
 
