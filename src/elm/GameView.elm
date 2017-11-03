@@ -7,7 +7,7 @@ import Html.Attributes exposing (style)
 import Html.Events
 import Svg exposing (svg, polygon, circle, rect)
 import Svg.Attributes exposing (version, viewBox, points, fill, width, height, x, y)
-import Util exposing (grid)
+import Util exposing (grid, gridElement)
 
 
 view : Model -> Html Msg
@@ -70,12 +70,13 @@ viewGridBackground model gridElemenSize =
 
 viewPlayer : Model -> Int -> Html Msg 
 viewPlayer model gridElemenSize =
-    rect [ 
-        x (toString (model.x * gridElemenSize + 1)), 
-        y (toString (model.y * gridElemenSize + 1)), 
-        width (toString (gridElemenSize - 2)), 
-        height (toString (gridElemenSize - 2)), 
-        fill "#d9d9d9" ] []
+    gridElement model.x model.y gridElemenSize "#d9d9d9"
+    -- rect [ 
+    --     x (toString (model.x * gridElemenSize + 1)), 
+    --     y (toString (model.y * gridElemenSize + 1)), 
+    --     width (toString (gridElemenSize - 2)), 
+    --     height (toString (gridElemenSize - 2)), 
+    --     fill "#d9d9d9" ] []
 
 viewEnemies : Model -> Int -> List (Html Msg)
 viewEnemies model gridElemenSize =
