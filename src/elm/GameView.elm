@@ -63,7 +63,7 @@ viewGridBackground model gridElementSize =
 
 viewPlayer : Model -> Int -> Html Msg 
 viewPlayer model gridElemenSize =
-    gridElement gridElemenSize "#d9d9d9" model.x model.y 
+    gridElement2 gridElemenSize "#d9d9d9" model.position 
 
 viewEnemies : Model -> Int -> List (Html Msg)
 viewEnemies model gridElementSize =

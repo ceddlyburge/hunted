@@ -24,7 +24,6 @@ type alias Enemy =
 type alias Model =
     { level : Level
     , state : State
-    , x : Int
-    , y : Int
+    , position : Position
     , enemies : List Enemy
     }
