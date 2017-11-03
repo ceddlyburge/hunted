@@ -56,16 +56,11 @@ viewGame model =
 
 
 viewGridBackground : Model -> Int -> List (Html Msg)
-viewGridBackground model gridElemenSize =
+viewGridBackground model gridElementSize =
     (grid model.level.size model.level.size)
         |> List.map 
             (\( a, b ) -> 
-                rect 
-                [ 
-                    x (toString (a * gridElemenSize + 1)), 
-                    y (toString (b * gridElemenSize + 1)), 
-                    width (toString (gridElemenSize - 2)), 
-                    height (toString (gridElemenSize - 2)) ] [])
+                gridElement a b gridElementSize "#000000")
 
 
 viewPlayer : Model -> Int -> Html Msg 
@@ -73,32 +68,12 @@ viewPlayer model gridElemenSize =
     gridElement model.x model.y gridElemenSize "#d9d9d9"
 
 viewEnemies : Model -> Int -> List (Html Msg)
-viewEnemies model gridElemenSize =
-     (model.enemies
-        |> List.map
-            (\e ->
-                gridElement e.x e.y gridElemenSize "#ff6666"
-                -- rect
-                --     [ x (toString (e.x * gridElemenSize + 1))
-                --     , y (toString (e.y * gridElemenSize + 1))
-                --     , width (toString (gridElemenSize - 2))
-                --     , height (toString (gridElemenSize - 2))
-                --     , fill "#ff6666"
-                --     ]
-                --     []
-            )
-    )
+viewEnemies model gridElementSize =
+    List.map (viewEnemy gridElementSize) model.enemies
 
--- viewEnemy : Model -> Html Msg
--- viewEnemy model =
---     let
---         n =
---             5
-
---         size =
---             100 // n
---     in
---         rect [ x (toString (model.x * size + 1)), y (toString (model.y * size + 1)), width (toString (size - 2)), height (toString (size - 2)), fill "#d9d9d9" ] []
+viewEnemy : Int -> Enemy -> Html Msg
+viewEnemy gridElemenSize enemy  =
+    gridElement enemy.x enemy.y gridElemenSize "#ff6666"
 
 viewStart : Model -> Html Msg
 viewStart model =
