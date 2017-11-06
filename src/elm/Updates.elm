@@ -78,14 +78,14 @@ keyDown : KeyCode -> CurriedModel -> Model
 keyDown keyCode model =
     case keyCode of
         37 ->
-                model.moveLeft --{ model | position = (moveLeft model.position) }
+                model.moveLeft 
         39 ->
-                model.moveRight --{ model.model | position = (moveRight model.position) }
+                model.moveRight
         38 ->
-                model.moveUp --{ model.model | position = (moveUp model.position) }
+                model.moveUp 
         40 ->
-                model.moveDown --{ model.model | position = (moveDown model.position) }
+                model.moveDown 
         27 ->
-                model.start --{ model.model | state = Start }
+                model.start 
         _ ->
                 model.model
