@@ -26,3 +26,12 @@ type alias Model =
     , position : Position
     , enemies : List Enemy
     }
+
+type alias CurriedModel =
+    { model : Model
+    , moveLeft : Model
+    , moveRight : Model
+    , moveUp : Model
+    , moveDown : Model
+    , start : Model
+    }

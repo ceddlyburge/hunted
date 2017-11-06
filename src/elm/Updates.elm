@@ -10,18 +10,24 @@ type Msg
     | KeyDown KeyCode
     | StartGame
 
+curryModel : Model -> CurriedModel
+curryModel model =
+    CurriedModel model (moveModelLeft model) (moveModelRight model) (moveModelUp model) (moveModelDown model) (start model)
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    case msg of
-        TimeUpdate dt ->
-            ( model, Cmd.none )
+    let 
+        curriedModel = curryModel model
+    in
+        case msg of
+            TimeUpdate dt ->
+                ( model, Cmd.none )
 
-        KeyDown keyCode ->
-            ( keyDown keyCode model, Cmd.none )
+            KeyDown keyCode ->
+                ( keyDown keyCode curriedModel, Cmd.none )
 
-        StartGame ->
-            ( { model | state = Game }, Cmd.none )
+            StartGame ->
+                ( { model | state = Game }, Cmd.none )
 
 
 initialModel : Model
@@ -31,6 +37,26 @@ initialModel =
     , position = Position 2 2
     , enemies = [ Enemy (Position 0 0) 0.0  ]
     }
+
+start : Model -> Model
+start model =
+    { model | state = Start }
+
+moveModelUp : Model -> Model
+moveModelUp model =
+        { model | position = (moveUp model.position) }
+
+moveModelDown : Model -> Model
+moveModelDown model =
+        { model | position = (moveDown model.position) }
+
+moveModelLeft : Model -> Model
+moveModelLeft model =
+        { model | position = (moveLeft model.position) }
+
+moveModelRight : Model -> Model
+moveModelRight model =
+        { model | position = (moveRight model.position) }
 
 moveUp : Position -> Position
 moveUp position =
@@ -48,18 +74,18 @@ moveRight : Position -> Position
 moveRight position =
         { position | x = min 4 (position.x + 1) }
 
-keyDown : KeyCode -> Model -> Model
+keyDown : KeyCode -> CurriedModel -> Model
 keyDown keyCode model =
     case keyCode of
-        38 ->
-                { model | position = (moveUp model.position) }
-        40 ->
-                { model | position = (moveDown model.position) }
         37 ->
-                { model | position = (moveLeft model.position) }
+                model.moveLeft --{ model | position = (moveLeft model.position) }
         39 ->
-                { model | position = (moveRight model.position) }
+                model.moveRight --{ model.model | position = (moveRight model.position) }
+        38 ->
+                model.moveUp --{ model.model | position = (moveUp model.position) }
+        40 ->
+                model.moveDown --{ model.model | position = (moveDown model.position) }
         27 ->
-            { model | state = Start }
+                model.start --{ model.model | state = Start }
         _ ->
-             model
+                model.model
