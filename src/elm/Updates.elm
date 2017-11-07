@@ -14,17 +14,22 @@ curryModel : Model -> CurriedModel
 curryModel model =
     CurriedModel model (moveModelLeft model) (moveModelRight model) (moveModelUp model) (moveModelDown model) (start model)
 
+curryActions : Model -> Actions
+curryActions model =
+    Actions (moveModelLeft model) (moveModelRight model) (moveModelUp model) (moveModelDown model) (start model)
+
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     let 
         curriedModel = curryModel model
+        actions = curryActions model
     in
         case msg of
             TimeUpdate dt ->
                 ( model, Cmd.none )
 
             KeyDown keyCode ->
-                ( keyDown keyCode curriedModel, Cmd.none )
+                ( keyDown keyCode model actions, Cmd.none )
 
             StartGame ->
                 ( { model | state = Game }, Cmd.none )
@@ -74,18 +79,18 @@ moveRight : Position -> Position
 moveRight position =
         { position | x = min 4 (position.x + 1) }
 
-keyDown : KeyCode -> CurriedModel -> Model
-keyDown keyCode model =
+keyDown : KeyCode -> Model -> Actions -> Model
+keyDown keyCode model actions  =
     case keyCode of
         37 ->
-                model.moveLeft 
+                actions.moveLeft 
         39 ->
-                model.moveRight
+                actions.moveRight
         38 ->
-                model.moveUp 
+                actions.moveUp 
         40 ->
-                model.moveDown 
+                actions.moveDown 
         27 ->
-                model.start 
+                actions.start 
         _ ->
-                model.model
+                model

@@ -19,12 +19,19 @@ type alias Enemy =
     , energy : Float
     }
 
-
 type alias Model =
     { level : Level
     , state : State
     , position : Position
     , enemies : List Enemy
+    }
+
+type alias Actions =
+    { moveLeft : Model
+    , moveRight : Model
+    , moveUp : Model
+    , moveDown : Model
+    , start : Model
     }
 
 type alias CurriedModel =
