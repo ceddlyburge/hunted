@@ -26,10 +26,10 @@ view model =
             ]
         ]
         [ case model.state of
-            Start ->
+            Welcome ->
                 viewStart model
 
-            Game ->
+            Playing ->
                 viewGame model
 
             Over ->

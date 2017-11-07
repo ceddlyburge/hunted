@@ -2,8 +2,8 @@ module Models exposing (..)
 
 
 type State
-    = Game
-    | Start
+    = Welcome
+    | Playing
     | Over
 
 type alias Level =
@@ -31,14 +31,6 @@ type alias Actions =
     , moveRight : Model
     , moveUp : Model
     , moveDown : Model
-    , start : Model
-    }
-
-type alias CurriedModel =
-    { model : Model
-    , moveLeft : Model
-    , moveRight : Model
-    , moveUp : Model
-    , moveDown : Model
-    , start : Model
+    , welcomeState : Model
+    , playingState : Model
     }
