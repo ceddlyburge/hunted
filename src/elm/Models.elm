@@ -1,5 +1,13 @@
 module Models exposing (..)
 
+import Html exposing (Html, text)
+import Time exposing (Time)
+import Keyboard exposing (KeyCode)
+
+type Msg
+    = TimeUpdate Time
+    | KeyDown KeyCode
+    | StartGame
 
 type State
     = Welcome
@@ -24,6 +32,11 @@ type alias Model =
     , state : State
     , position : Position
     , enemies : List Enemy
+    , gridElement : String -> Position -> Html Msg
+    }
+
+type alias Views =
+    { moveLeft : Model
     }
 
 type alias Actions =

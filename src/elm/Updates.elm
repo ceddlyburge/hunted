@@ -4,15 +4,18 @@ import Models exposing (..)
 import Time exposing (Time)
 import Keyboard exposing (KeyCode)
 import CurryActions exposing (curryActions)
-
-
-type Msg
-    = TimeUpdate Time
-    | KeyDown KeyCode
-    | StartGame
+import Util exposing (..)
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
+    let
+        (newModel, newMsg) = updateWithoutCurrying msg model 
+    in
+        (curryModel newModel, newMsg)
+
+
+updateWithoutCurrying : Msg -> Model -> ( Model, Cmd Msg )
+updateWithoutCurrying msg model =
     let 
         actions = curryActions model
     in
@@ -33,7 +36,13 @@ initialModel =
     , state = Welcome
     , position = Position 2 2
     , enemies = [ Enemy (Position 0 0) 0.0  ]
+    , gridElement = gridElement 5
     }
+
+curryModel : Model -> Model
+curryModel model =
+    { model | gridElement = (gridElement model.level.size) }    
+
 
 keyDown : KeyCode -> Model -> Actions -> Model
 keyDown keyCode model actions  =
