@@ -45,11 +45,11 @@ viewGame model =
     in
         Html.div
             [ style [ ( "max-width", "400px" ), ( "min-width", "280px" ), ( "flex", "1" ) ] ]
-            [ Html.h1 []
+            [ Html.h1 [ style [ ( "font-size", "0.5em" ) ]]
                 [ text (toString model) ]
             , svg [ version "1.1", viewBox "0 0 100 100" ]
                 (viewGridBackground model gridElemenSize
-                    ++ [ viewPlayer model gridElemenSize ]
+                    ++ [ model.playerGridElement ]
                     ++ viewEnemies model gridElemenSize 
                 )
             ]
@@ -57,20 +57,16 @@ viewGame model =
 
 viewGridBackground : Model -> Int -> List (Html Msg)
 viewGridBackground model gridElementSize =
-    List.map  (gridElement gridElementSize "#000000") (grid model.level.size model.level.size)
+    List.map  (model.backgroundGridElement) (grid model.level.size model.level.size)
 
-
-viewPlayer : Model -> Int -> Html Msg 
-viewPlayer model gridElemenSize =
-    gridElement gridElemenSize "#d9d9d9" model.position 
 
 viewEnemies : Model -> Int -> List (Html Msg)
 viewEnemies model gridElementSize =
-    List.map (viewEnemy gridElementSize) model.enemies
+    List.map (model.enemyGridElement) model.enemies
 
-viewEnemy : Int -> Enemy -> Html Msg
-viewEnemy gridElemenSize enemy  =
-    gridElement gridElemenSize "#ff6666" enemy.position 
+viewEnemy : Model -> Enemy -> Html Msg
+viewEnemy model enemy =
+    model.enemyGridElement enemy
 
 viewStart : Model -> Html Msg
 viewStart model =

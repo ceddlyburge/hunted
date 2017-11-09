@@ -1,4 +1,4 @@
-module CurryActions exposing (curryActions)
+module Actions exposing (curryActions)
 
 import Models exposing (..)
 
@@ -20,7 +20,7 @@ moveModelUp model =
 
 moveModelDown : Model -> Model
 moveModelDown model =
-        { model | position = (moveDown model.position model.level.size) }
+        { model | position = (moveDown model.position (model.level.size - 1)) }
 
 moveModelLeft : Model -> Model
 moveModelLeft model =
@@ -28,7 +28,7 @@ moveModelLeft model =
 
 moveModelRight : Model -> Model
 moveModelRight model =
-        { model | position = (moveRight model.position model.level.size) }
+        { model | position = (moveRight model.position (model.level.size - 1)) }
 
 moveUp : Position -> Position
 moveUp position =

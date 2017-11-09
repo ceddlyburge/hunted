@@ -1,5 +1,6 @@
-module Util exposing (grid, gridElement)
+module Util exposing (grid, gridElement, enemyGridElement)
 
+import Html exposing (Html, text)
 import Svg exposing (svg, polygon, circle, rect)
 import Svg.Attributes exposing (version, viewBox, points, fill, width, height, x, y)
 import Models exposing (..)
@@ -18,7 +19,7 @@ grid n m =
         List.map (\c -> addCoordToAll c coords) coords
             |> List.foldl (++) []
 
-gridElement : Int -> String -> Position -> Svg.Svg msg
+gridElement : Int -> String -> Position -> Html Msg
 gridElement gridElementSize gridFill position  =
     rect 
     [ 
@@ -28,3 +29,6 @@ gridElement gridElementSize gridFill position  =
         height (toString (gridElementSize - 2)),
         fill gridFill ] []
 
+enemyGridElement : Int -> String -> (Enemy -> Html Msg)
+enemyGridElement gridElementSize gridFill = 
+    (\enemy -> gridElement gridElementSize gridFill enemy.position)
