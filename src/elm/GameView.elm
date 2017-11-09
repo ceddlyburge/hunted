@@ -1,6 +1,5 @@
 module GameView exposing (..)
 
-import Updates exposing (..)
 import Models exposing (..)
 import Html exposing (Html, text)
 import Html.Attributes exposing (style)

@@ -3,8 +3,9 @@ module Updates exposing (..)
 import Models exposing (..)
 import Time exposing (Time)
 import Keyboard exposing (KeyCode)
-import CurryActions exposing (curryActions)
-import Util exposing (..)
+import Actions exposing (curryActions)
+--import Util exposing (..)
+import CurryModelGridViewFunctions exposing (..)
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
@@ -42,18 +43,6 @@ initialModel =
     , enemyGridElement = (enemyGridElement 5 "#ff6666") }
 
 
-curryModel : Model -> Model
-curryModel model =
-    let
-        gridElemenSize =
-            100 // model.level.size  
-    in
-            { model | 
-            gridElement = (gridElement gridElemenSize) 
-            , backgroundGridElement = (gridElement gridElemenSize "#000000" ) 
-            , playerGridElement = (gridElement gridElemenSize "#d9d9d9" model.position) 
-            , enemyGridElement = (enemyGridElement gridElemenSize "#ff6666") 
-        }    
 
 
 keyDown : KeyCode -> Model -> Actions -> Model
