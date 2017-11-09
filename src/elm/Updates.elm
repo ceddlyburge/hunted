@@ -37,11 +37,23 @@ initialModel =
     , position = Position 2 2
     , enemies = [ Enemy (Position 0 0) 0.0  ]
     , gridElement = gridElement 5
-    }
+    , backgroundGridElement = (gridElement 5 "#000000" ) 
+    , playerGridElement = (gridElement 5 "#d9d9d9" (Position 0 0))
+    , enemyGridElement = (gridElement 5 "#ff6666" )}
 
 curryModel : Model -> Model
 curryModel model =
-    { model | gridElement = (gridElement model.level.size) }    
+    let
+        gridElemenSize =
+            100 // model.level.size  
+    in
+    
+        { model | 
+            gridElement = (gridElement gridElemenSize) 
+            , backgroundGridElement = (gridElement gridElemenSize "#000000" ) 
+            , playerGridElement = (gridElement gridElemenSize "#d9d9d9" model.position) 
+            , enemyGridElement = (gridElement gridElemenSize "#ff6666" )
+        }    
 
 
 keyDown : KeyCode -> Model -> Actions -> Model

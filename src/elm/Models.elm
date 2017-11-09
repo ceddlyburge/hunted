@@ -33,6 +33,9 @@ type alias Model =
     , position : Position
     , enemies : List Enemy
     , gridElement : String -> Position -> Html Msg
+    , playerGridElement : Html Msg
+    , backgroundGridElement : Position -> Html Msg
+    , enemyGridElement : Position -> Html Msg
     }
 
 type alias Views =
