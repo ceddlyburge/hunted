@@ -1,6 +1,7 @@
 module Updates exposing (..)
 
 import Models exposing (..)
+import Html exposing (Html, text)
 import Time exposing (Time)
 import Keyboard exposing (KeyCode)
 import Actions exposing (curryActions)
@@ -29,7 +30,7 @@ updateWithoutCurrying msg model =
             StartGame ->
                 ( actions.playingState, Cmd.none )
 
-
+-- It is a bit annoying having to set up all these initial curried things. Probably there is something better to do here. Maybe the plan of having curried functions in the view is a bad one.
 initialModel : Model
 initialModel =
     { level = Level 5
@@ -37,11 +38,10 @@ initialModel =
     , position = Position 2 2
     , enemies = [ Enemy (Position 0 0) 0.0  ]
     , grid = []
-    , gridElement = gridElement 5
-    , backgroundGridElement = (gridElement 5 "#000000" ) 
-    , playerGridElement = (gridElement 5 "#d9d9d9" (Position 0 0))
-    , enemyGridElement = (enemyGridElement 5 "#ff6666") }
-
+    , backgroundGridElement = (\p -> Html.p[][]) 
+    , playerGridElement = Html.p[][] 
+    , enemyGridElement = (\e -> Html.p[][]) 
+    }
 
 
 

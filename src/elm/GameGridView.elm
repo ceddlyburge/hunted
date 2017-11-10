@@ -1,4 +1,4 @@
-module GameGridView exposing (curryModel, gridElement, enemyGridElement)
+module GameGridView exposing (curryModel)
 
 import Html exposing (Html, text)
 import Svg exposing (svg, polygon, circle, rect)
@@ -13,7 +13,6 @@ curryModel model =
     in
             { model | 
             grid = (grid model.level.size model.level.size)
-            , gridElement = (gridElement gridElemenSize) 
             , backgroundGridElement = (gridElement gridElemenSize "#000000" ) 
             , playerGridElement = (gridElement gridElemenSize "#d9d9d9" model.position) 
             , enemyGridElement = (enemyGridElement gridElemenSize "#ff6666") 
