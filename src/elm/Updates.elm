@@ -4,8 +4,7 @@ import Models exposing (..)
 import Time exposing (Time)
 import Keyboard exposing (KeyCode)
 import Actions exposing (curryActions)
---import Util exposing (..)
-import CurryModelGridViewFunctions exposing (..)
+import GameGridView exposing (..)
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
@@ -37,6 +36,7 @@ initialModel =
     , state = Welcome
     , position = Position 2 2
     , enemies = [ Enemy (Position 0 0) 0.0  ]
+    , grid = []
     , gridElement = gridElement 5
     , backgroundGridElement = (gridElement 5 "#000000" ) 
     , playerGridElement = (gridElement 5 "#d9d9d9" (Position 0 0))
