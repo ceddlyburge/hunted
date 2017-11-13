@@ -1,4 +1,4 @@
-module Updates exposing (..)
+module Updates.Master exposing (..)
 
 import Models exposing (..)
 import Html exposing (Html, text)
