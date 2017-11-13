@@ -12,7 +12,7 @@ type Msg
 type State
     = Welcome
     | Playing
-    | Over
+    | GameOver
 
 type alias Level =
     { size : Int
