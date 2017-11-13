@@ -1,4 +1,4 @@
-module Actions exposing (curryActions)
+module Updates.Actions exposing (curryActions)
 
 import Models exposing (..)
 

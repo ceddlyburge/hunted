@@ -4,7 +4,7 @@ import Models exposing (..)
 import Html exposing (Html, text)
 import Time exposing (Time)
 import Keyboard exposing (KeyCode)
-import Actions exposing (curryActions)
+import Updates.Actions exposing (curryActions)
 import Views.GameGrid exposing (..)
 
 update : Msg -> Model -> ( Model, Cmd Msg )
