@@ -1,6 +1,6 @@
 module Updates.Actions exposing (curryActions)
 
-import Models exposing (..)
+import Models.Models exposing (..)
 
 curryActions : Model -> Actions
 curryActions model =

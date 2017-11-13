@@ -3,7 +3,7 @@ module Views.GameGrid exposing (curryModel)
 import Html exposing (Html, text)
 import Svg exposing (svg, polygon, circle, rect)
 import Svg.Attributes exposing (version, viewBox, points, fill, width, height, x, y)
-import Models exposing (..)
+import Models.Models exposing (..)
 
 curryModel : Model -> Model
 curryModel model =

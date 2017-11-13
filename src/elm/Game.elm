@@ -1,9 +1,9 @@
 module Game exposing (..)
 
 import Html exposing (Html)
-import Models exposing (..)
+import Models.Models exposing (..)
 import Views.Master exposing (..)
-import Updates exposing (..)
+import Updates.Master exposing (..)
 import AnimationFrame
 import Keyboard
 

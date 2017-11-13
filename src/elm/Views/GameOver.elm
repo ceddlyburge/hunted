@@ -1,6 +1,6 @@
 module Views.GameOver exposing (..)
 
-import Models exposing (..)
+import Models.Models exposing (..)
 import Html exposing (Html, text)
 import Html.Attributes exposing (style)
 import Html.Events

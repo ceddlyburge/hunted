@@ -1,4 +1,4 @@
-module Models exposing (..)
+module Models.Models exposing (..)
 
 import Html exposing (Html, text)
 import Time exposing (Time)

@@ -1,6 +1,6 @@
 module Updates.Master exposing (..)
 
-import Models exposing (..)
+import Models.Models exposing (..)
 import Html exposing (Html, text)
 import Time exposing (Time)
 import Keyboard exposing (KeyCode)

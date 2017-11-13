@@ -3,7 +3,7 @@ module Views.Master exposing (..)
 import Views.Welcome exposing (..)
 import Views.GameOver exposing (..)
 import Views.Playing exposing (..)
-import Models exposing (..)
+import Models.Models exposing (..)
 import Html exposing (Html, text)
 import Html.Attributes exposing (style)
 
