@@ -1,4 +1,4 @@
-module GameView exposing (..)
+module Views.Master exposing (..)
 
 import Views.Welcome exposing (..)
 import Views.GameOver exposing (..)
