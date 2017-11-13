@@ -1,4 +1,4 @@
-module GameGridView exposing (curryModel)
+module Views.GameGrid exposing (curryModel)
 
 import Html exposing (Html, text)
 import Svg exposing (svg, polygon, circle, rect)
