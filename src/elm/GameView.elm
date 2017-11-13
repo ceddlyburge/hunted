@@ -1,6 +1,6 @@
 module GameView exposing (..)
 
-import Views.Start exposing (..)
+import Views.Welcome exposing (..)
 import Views.GameOver exposing (..)
 import Views.Playing exposing (..)
 import Models exposing (..)
@@ -25,12 +25,12 @@ view model =
         ]
         [ case model.state of
             Welcome ->
-                viewStart model
+                welcome model
 
             Playing ->
-                viewGame model
+                playing model
 
             GameOver ->
-                viewOver model
+                gameOver model
         ]
 

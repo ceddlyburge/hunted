@@ -1,12 +1,12 @@
-module Views.Start exposing (..)
+module Views.Welcome exposing (..)
 
 import Models exposing (..)
 import Html exposing (Html, text)
 import Html.Attributes exposing (style)
 import Html.Events
 
-viewStart : Model -> Html Msg
-viewStart model =
+welcome : Model -> Html Msg
+welcome model =
     Html.div
         [ style [ ( "max-width", "400px" ), ( "min-width", "280px" ), ( "flex", "1" ) ] ]
         [ Html.h1 [ style [ ( "font-size", "3em" ), ( "color", "#E31743" ) ] ]

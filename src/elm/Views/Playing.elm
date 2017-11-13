@@ -1,4 +1,4 @@
-module Views.Playing exposing (viewGame)
+module Views.Playing exposing (playing)
 
 import Models exposing (..)
 import Html exposing (Html, text)
@@ -7,8 +7,8 @@ import Html.Events
 import Svg exposing (svg, polygon, circle, rect)
 import Svg.Attributes exposing (version, viewBox, points, fill, width, height, x, y)
 
-viewGame : Model -> Html Msg
-viewGame model =
+playing : Model -> Html Msg
+playing model =
     Html.div
         [ style [ ( "max-width", "400px" ), ( "min-width", "280px" ), ( "flex", "1" ) ] ]
         [ Html.h1 [ style [ ( "font-size", "0.5em" ) ]]
