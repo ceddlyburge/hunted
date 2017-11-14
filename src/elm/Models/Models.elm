@@ -32,7 +32,7 @@ type alias Model =
     { level : Level
     , state : State
     , position : Position
-    , enemies : List Enemy
+    , enemies : Queue Enemy
     , grid : List Position
     , playerGridElement : Html Msg
     , backgroundGridElement : Position -> Html Msg

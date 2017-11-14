@@ -1,6 +1,7 @@
 module Views.Playing exposing (playing)
 
 import Models.Models exposing (..)
+import Queue exposing (..)
 import Html exposing (Html, text)
 import Html.Attributes exposing (style)
 import Html.Events
@@ -28,4 +29,4 @@ viewGridBackground model =
 
 viewEnemies : Model -> List (Html Msg)
 viewEnemies model =
-    List.map (model.enemyGridElement) model.enemies
+    List.map (model.enemyGridElement) (Queue.toList model.enemies)

@@ -1,6 +1,7 @@
 module Updates.Master exposing (..)
 
 import Models.Models exposing (..)
+import Queue exposing (..)
 import Html exposing (Html, text)
 import Time exposing (Time)
 import Keyboard exposing (KeyCode)
@@ -36,7 +37,7 @@ initialModel =
     { level = Level 5
     , state = Welcome
     , position = Position 2 2
-    , enemies = [ Enemy (Position 0 0) 0.0  ]
+    , enemies = Queue.empty |> Queue.enq ( Enemy (Position 0 0) 0.0 )
     , grid = []
     , backgroundGridElement = (\p -> Html.p[][]) 
     , playerGridElement = Html.p[][] 
