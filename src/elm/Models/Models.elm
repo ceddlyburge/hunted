@@ -1,4 +1,5 @@
 module Models.Models exposing (..)
+import Queue exposing (..)
 
 import Html exposing (Html, text)
 import Time exposing (Time)
@@ -36,10 +37,6 @@ type alias Model =
     , playerGridElement : Html Msg
     , backgroundGridElement : Position -> Html Msg
     , enemyGridElement : Enemy -> Html Msg
-    }
-
-type alias Views =
-    { moveLeft : Model
     }
 
 type alias Actions =
