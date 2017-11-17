@@ -62,10 +62,6 @@ initialModel =
 -- run move enemy
 -- run energise enemy
 
-timeUpdate : Float -> Model -> Model
-timeUpdate milliseconds model  =
-    { model | enemies = processTopOfQueueAndReturnToQueue model.enemies (updateEnemyEnergy milliseconds)  }
-
 processTopOfQueueAndReturnToQueue : Queue a -> (a -> a) -> Queue a
 processTopOfQueueAndReturnToQueue queue processor =
     let
@@ -77,9 +73,34 @@ processTopOfQueueAndReturnToQueue queue processor =
         Nothing ->
             list
 
+timeUpdate : Float -> Model -> Model
+timeUpdate milliseconds model  =
+    --{ model | enemies = processTopOfQueueAndReturnToQueue model.enemies (updateEnemyEnergy milliseconds)  }
+    --{ model | enemies = processTopOfQueueAndReturnToQueue model.enemies (updateEnemyPosition (Queue.toList model.enemies) model.position) }
+    { model | enemies = 
+        processTopOfQueueAndReturnToQueue model.enemies (
+            updateEnemyPosition (Queue.toList model.enemies) model.position
+            >> updateEnemyPosition (Queue.toList model.enemies) model.position
+            )   
+    }
+
 updateEnemyEnergy : Float -> Enemy -> Enemy
 updateEnemyEnergy milliseconds enemy =
     { enemy | energy = enemy.energy + milliseconds }
+
+updateEnemyPosition : List Enemy -> Position -> Enemy -> Enemy
+updateEnemyPosition  enemies playerPosition enemy =
+    { enemy | position = newEnemyPosition enemies playerPosition enemy }
+
+newEnemyPosition : List Enemy -> Position -> Enemy -> Position
+newEnemyPosition enemies playerPosition enemy =
+    let 
+        newPosition = desiredEnemyPosition enemy.position playerPosition
+    in
+        if (isOccupied newPosition enemies) then
+            enemy.position
+        else
+            newPosition
 
 desiredEnemyPosition : Position -> Position -> Position
 desiredEnemyPosition enemyPosition playerPosition =
