@@ -62,24 +62,9 @@ initialModel =
 -- run move enemy
 -- run energise enemy
 
-
 timeUpdate : Float -> Model -> Model
 timeUpdate milliseconds model  =
-    model
-    --let
-        --enemy = (Queue.deq model.enemies)
-        --|> Maybe.andThen (justUpdateEnemyEnergy milliseconds)
-        --desiredPosition = desiredEnemyPosition enemy.position model.position
-    --in
-        --enemy = (Queue.deq model.enemies)
-        --|> Maybe.andThen (justUpdateEnemyEnergy milliseconds)
-        --model
-        --{ model | enemies = Queue.enq enemy }
-
--- there is probably a good way to pass Queue.enq to list.map to create a queue from a list
--- timeUpdate : Float -> Model -> Model
--- timeUpdate milliseconds model  =
---     { model | enemies = List.map (updateEnemyEnergy milliseconds) model.enemies }
+    { model | enemies = processTopOfQueueAndReturnToQueue model.enemies (updateEnemyEnergy milliseconds)  }
 
 processTopOfQueueAndReturnToQueue : Queue a -> (a -> a) -> Queue a
 processTopOfQueueAndReturnToQueue queue processor =
@@ -91,18 +76,6 @@ processTopOfQueueAndReturnToQueue queue processor =
             Queue.enq (processor item) list 
         Nothing ->
             list
-
-
-updateEnemyEnergy2 : Float -> Model -> Maybe Enemy
-updateEnemyEnergy2 milliseconds model =
-    let
-      (enemy, enemies) = Queue.deq model.enemies
-    in
-        Maybe.andThen (justUpdateEnemyEnergy milliseconds) enemy
-
-justUpdateEnemyEnergy : Float -> Enemy -> Maybe Enemy
-justUpdateEnemyEnergy milliseconds enemy =
-    Just { enemy | energy = enemy.energy + milliseconds }
 
 updateEnemyEnergy : Float -> Enemy -> Enemy
 updateEnemyEnergy milliseconds enemy =
