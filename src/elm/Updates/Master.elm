@@ -76,8 +76,7 @@ processTopOfQueueAndReturnToQueue queue processor =
 timeUpdate : Float -> Model -> Model
 timeUpdate milliseconds model  =
     { model | 
-        enemies = processTopOfQueueAndReturnToQueue model.enemies (updateEnemy model milliseconds) 
-    }
+        enemies = processTopOfQueueAndReturnToQueue model.enemies (updateEnemy model milliseconds) }
 
 updateEnemy : Model -> Float -> (Enemy -> Enemy)
 updateEnemy model milliseconds =
@@ -93,12 +92,16 @@ updateEnemyPositionAndEnergy  enemies playerPosition enemy =
     let 
         newPosition = desiredEnemyPosition enemy.position playerPosition
     in
-        if (enemy.energy < 2) || (isOccupied newPosition enemies == True) then
-            enemy
-        else
+        if (canEnemyMove enemy newPosition enemies ) then
             { enemy |
                 position = newPosition 
                 , energy = 0 }
+        else
+            enemy
+
+canEnemyMove : Enemy -> Position -> Queue Enemy -> Bool
+canEnemyMove enemy desiredPosition enemies =
+    (enemy.energy >= 2) && (isOccupied desiredPosition enemies == False)
 
 desiredEnemyPosition : Position -> Position -> Position
 desiredEnemyPosition enemyPosition playerPosition =
