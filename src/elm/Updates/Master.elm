@@ -75,32 +75,30 @@ processTopOfQueueAndReturnToQueue queue processor =
 
 timeUpdate : Float -> Model -> Model
 timeUpdate milliseconds model  =
-    --{ model | enemies = processTopOfQueueAndReturnToQueue model.enemies (updateEnemyEnergy milliseconds)  }
-    --{ model | enemies = processTopOfQueueAndReturnToQueue model.enemies (updateEnemyPosition (Queue.toList model.enemies) model.position) }
-    { model | enemies = 
-        processTopOfQueueAndReturnToQueue model.enemies (
-            updateEnemyPosition (Queue.toList model.enemies) model.position
-            >> updateEnemyPosition (Queue.toList model.enemies) model.position
-            )   
+    { model | 
+        enemies = processTopOfQueueAndReturnToQueue model.enemies (updateEnemy model milliseconds) 
     }
 
-updateEnemyEnergy : Float -> Enemy -> Enemy
-updateEnemyEnergy milliseconds enemy =
+updateEnemy : Model -> Float -> (Enemy -> Enemy)
+updateEnemy model milliseconds =
+    increaseEnemyEnergy milliseconds
+    >> updateEnemyPositionAndEnergy model.enemies model.position
+
+increaseEnemyEnergy : Float -> Enemy -> Enemy
+increaseEnemyEnergy milliseconds enemy =
     { enemy | energy = enemy.energy + milliseconds }
 
-updateEnemyPosition : List Enemy -> Position -> Enemy -> Enemy
-updateEnemyPosition  enemies playerPosition enemy =
-    { enemy | position = newEnemyPosition enemies playerPosition enemy }
-
-newEnemyPosition : List Enemy -> Position -> Enemy -> Position
-newEnemyPosition enemies playerPosition enemy =
+updateEnemyPositionAndEnergy : Queue Enemy -> Position -> Enemy -> Enemy
+updateEnemyPositionAndEnergy  enemies playerPosition enemy =
     let 
         newPosition = desiredEnemyPosition enemy.position playerPosition
     in
-        if (isOccupied newPosition enemies) then
-            enemy.position
+        if (enemy.energy < 2) || (isOccupied newPosition enemies == True) then
+            enemy
         else
-            newPosition
+            { enemy |
+                position = newPosition 
+                , energy = 0 }
 
 desiredEnemyPosition : Position -> Position -> Position
 desiredEnemyPosition enemyPosition playerPosition =
@@ -117,10 +115,9 @@ moveTowards current target =
     else
         current
 
-isOccupied : Position -> List Enemy -> Bool
+isOccupied : Position -> Queue Enemy -> Bool
 isOccupied position enemies =
-    (List.any (\e -> (e.position.x == position.x) && (e.position.y == position.y)) enemies)
-
+    List.any (\e -> (e.position.x == position.x) && (e.position.y == position.y)) (Queue.toList enemies)
 
 keyDown : KeyCode -> Model -> Actions -> Model
 keyDown keyCode model actions  =
