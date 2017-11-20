@@ -31,6 +31,9 @@ updateWithoutCurrying msg model =
             StartGame ->
                 ( actions.playingState, Cmd.none )
 
+            ShowWelcome ->
+                ( actions.welcomeState, Cmd.none )
+
 -- It is a bit annoying having to set up all these initial curried things. Probably there is something better to do here. Maybe the plan of having curried functions in the view is a bad one.
 initialModel : Model
 initialModel =

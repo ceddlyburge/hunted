@@ -13,6 +13,6 @@ gameOver model =
             [ Html.text "Game Over" ]
         , Html.p []
             [ Html.text "Your score this time was:" ]
-        , Html.h2 [ Html.Events.onClick StartGame ]
+        , Html.h2 [ Html.Events.onClick ShowWelcome ]
             [ Html.text "Restart" ]
         ]

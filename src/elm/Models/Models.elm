@@ -9,6 +9,7 @@ type Msg
     = TimeUpdate Time
     | KeyDown KeyCode
     | StartGame
+    | ShowWelcome
 
 type State
     = Welcome
