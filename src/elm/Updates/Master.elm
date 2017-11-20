@@ -117,7 +117,15 @@ moveTowards current target =
 
 isOccupied : Position -> Queue Enemy -> Bool
 isOccupied position enemies =
-    List.any (\e -> (e.position.x == position.x) && (e.position.y == position.y)) (Queue.toList enemies)
+    List.any (enemyPositionEqual position) (Queue.toList enemies)
+
+enemyPositionEqual : Position -> Enemy -> Bool
+enemyPositionEqual position enemy =
+    positionsEqual position enemy.position
+
+positionsEqual : Position -> Position -> Bool
+positionsEqual position1 position2 =
+    position1.x == position2.x && position1.y == position2.y
 
 keyDown : KeyCode -> Model -> Actions -> Model
 keyDown keyCode model actions  =
