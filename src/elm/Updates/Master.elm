@@ -75,8 +75,20 @@ processTopOfQueueAndReturnToQueue queue processor =
 
 timeUpdate : Float -> Model -> Model
 timeUpdate milliseconds model  =
-    { model | 
-        enemies = processTopOfQueueAndReturnToQueue model.enemies (updateEnemy model milliseconds) }
+      case model.state of
+        Playing ->
+            { model | 
+            enemies = processTopOfQueueAndReturnToQueue model.enemies (updateEnemy model milliseconds)
+            , state = checkGameOver model }
+        _ ->
+            model
+
+checkGameOver : Model -> State
+checkGameOver model =
+    if isOccupied model.position model.enemies == False then
+        Playing
+    else
+        GameOver
 
 updateEnemy : Model -> Float -> (Enemy -> Enemy)
 updateEnemy model milliseconds =
