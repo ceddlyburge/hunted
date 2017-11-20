@@ -47,24 +47,6 @@ initialModel =
     , enemyGridElement = (\e -> Html.p[][]) 
     }
 
--- update energy of first enemies
--- get first enemy from Queue
--- work out where it wants to move
--- it if can move then do so
--- put it back on the queue
--- check for gameover
-
--- can everything to work with a maybe
--- dequeue enemy, which is a maybe
--- desired position works with an actual position, just return a nothing in no position
--- if occupied takes a maybe position and returns a maybe position
--- moveEnemy function takes the maybe and returns a modified enemy if there is a position, or returns the original enemey otherwise
--- Maybe.map, Maybe.andThen
-
--- deque enemy
--- run move enemy
--- run energise enemy
-
 processTopOfQueueAndReturnToQueue : Queue a -> (a -> a) -> Queue a
 processTopOfQueueAndReturnToQueue queue processor =
     let
