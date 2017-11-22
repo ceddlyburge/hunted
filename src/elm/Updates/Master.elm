@@ -1,7 +1,7 @@
 module Updates.Master exposing (..)
 
 import Updates.Actions exposing (curryActions)
-import Updates.Enemies exposing (updateEnemy)
+import Updates.Enemies exposing (updateEnemy, isOccupiedByEnemy)
 import Views.GameGrid exposing (..)
 import Models.Models exposing (..)
 
@@ -49,6 +49,22 @@ initialModel =
     , enemyGridElement = (\e -> Html.p[][]) 
     }
 
+keyDown : KeyCode -> Model -> Actions -> Model
+keyDown keyCode model actions  =
+    case keyCode of
+        37 ->
+                actions.moveLeft 
+        39 ->
+                actions.moveRight
+        38 ->
+                actions.moveUp 
+        40 ->
+                actions.moveDown 
+        27 ->
+                actions.playingState
+        _ ->
+                model
+
 timeUpdate : Float -> Model -> Model
 timeUpdate milliseconds model  =
       case model.state of
@@ -73,36 +89,8 @@ processTopOfQueueAndReturnToQueue queue processor =
 
 checkGameOver : Model -> State
 checkGameOver model =
-    if isOccupied model.position model.enemies == False then
+    if isOccupiedByEnemy model.position model.enemies == False then
         Playing
     else
         GameOver
-
-isOccupied : Position -> Queue Enemy -> Bool
-isOccupied position enemies =
-    List.any (enemyPositionEqual position) (Queue.toList enemies)
-
-enemyPositionEqual : Position -> Enemy -> Bool
-enemyPositionEqual position enemy =
-    positionsEqual position enemy.position
-
-positionsEqual : Position -> Position -> Bool
-positionsEqual position1 position2 =
-    position1.x == position2.x && position1.y == position2.y
-
-keyDown : KeyCode -> Model -> Actions -> Model
-keyDown keyCode model actions  =
-    case keyCode of
-        37 ->
-                actions.moveLeft 
-        39 ->
-                actions.moveRight
-        38 ->
-                actions.moveUp 
-        40 ->
-                actions.moveDown 
-        27 ->
-                actions.playingState
-        _ ->
-                model
 

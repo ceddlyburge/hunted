@@ -1,4 +1,4 @@
-module Updates.Enemies exposing (..)
+module Updates.Enemies exposing (updateEnemy, isOccupiedByEnemy)
 
 import Models.Models exposing (..)
 import Queue exposing (..)
@@ -13,13 +13,6 @@ processTopOfQueueAndReturnToQueue queue processor =
             Queue.enq (processor item) list 
         Nothing ->
             list
-
-checkGameOver : Model -> State
-checkGameOver model =
-    if isOccupied model.position model.enemies == False then
-        Playing
-    else
-        GameOver
 
 updateEnemy : Model -> Float -> (Enemy -> Enemy)
 updateEnemy model milliseconds =
@@ -44,7 +37,7 @@ updateEnemyPositionAndEnergy  enemies playerPosition enemy =
 
 canEnemyMove : Enemy -> Position -> Queue Enemy -> Bool
 canEnemyMove enemy desiredPosition enemies =
-    (enemy.energy >= 2) && (isOccupied desiredPosition enemies == False)
+    (enemy.energy >= 2) && (isOccupiedByEnemy desiredPosition enemies == False)
 
 desiredEnemyPosition : Position -> Position -> Position
 desiredEnemyPosition enemyPosition playerPosition =
@@ -61,8 +54,8 @@ moveTowards current target =
     else
         current
 
-isOccupied : Position -> Queue Enemy -> Bool
-isOccupied position enemies =
+isOccupiedByEnemy : Position -> Queue Enemy -> Bool
+isOccupiedByEnemy position enemies =
     List.any (enemyPositionEqual position) (Queue.toList enemies)
 
 enemyPositionEqual : Position -> Enemy -> Bool
