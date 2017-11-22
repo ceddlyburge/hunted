@@ -1,6 +1,6 @@
 module Updates.Master exposing (..)
 
-import Updates.Actions exposing (curryActions)
+import Updates.PlayerActions exposing (curryActions)
 import Updates.Enemies exposing (updateEnemy, isOccupiedByEnemy)
 import Views.GameGrid exposing (..)
 import Models.Models exposing (..)

@@ -1,4 +1,4 @@
-module Updates.Actions exposing (curryActions)
+module Updates.PlayerActions exposing (curryActions)
 
 import Models.Models exposing (..)
 
