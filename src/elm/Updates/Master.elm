@@ -1,6 +1,6 @@
 module Updates.Master exposing (..)
 
-import Updates.PlayerActions exposing (curryActions)
+import Updates.PlayerActions exposing (curryPlayerActions)
 import Updates.Enemies exposing (updateEnemy, isOccupiedByEnemy)
 import Views.GameGrid exposing (..)
 import Models.Models exposing (..)
@@ -25,7 +25,7 @@ updateWithoutCurrying msg model =
             (timeUpdate (inSeconds time) model, Cmd.none)    
 
         KeyDown keyCode ->
-            ( keyDown keyCode model (curryActions model), Cmd.none )
+            ( keyDown keyCode model (curryPlayerActions model), Cmd.none )
 
         StartGame ->
             ( { model | state = Welcome }, Cmd.none)

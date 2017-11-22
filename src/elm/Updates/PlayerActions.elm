@@ -1,9 +1,9 @@
-module Updates.PlayerActions exposing (curryActions)
+module Updates.PlayerActions exposing (curryPlayerActions)
 
 import Models.Models exposing (..)
 
-curryActions : Model -> Actions
-curryActions model =
+curryPlayerActions : Model -> Actions
+curryPlayerActions model =
     Actions (moveModelLeft model) (moveModelRight model) (moveModelUp model) (moveModelDown model)
 
 moveModelUp : Model -> Model
