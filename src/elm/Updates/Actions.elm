@@ -4,15 +4,7 @@ import Models.Models exposing (..)
 
 curryActions : Model -> Actions
 curryActions model =
-    Actions (moveModelLeft model) (moveModelRight model) (moveModelUp model) (moveModelDown model) (welcomeState model) (playingState model)
-
-welcomeState : Model -> Model
-welcomeState model =
-    { model | state = Welcome }
-
-playingState : Model -> Model
-playingState model =
-    { model | state = Playing }
+    Actions (moveModelLeft model) (moveModelRight model) (moveModelUp model) (moveModelDown model)
 
 moveModelUp : Model -> Model
 moveModelUp model =

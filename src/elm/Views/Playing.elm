@@ -4,7 +4,6 @@ import Models.Models exposing (..)
 import Queue exposing (..)
 import Html exposing (Html, text)
 import Html.Attributes exposing (style)
-import Html.Events
 import Svg exposing (svg, polygon, circle, rect)
 import Svg.Attributes exposing (version, viewBox, points, fill, width, height, x, y)
 

@@ -45,6 +45,4 @@ type alias Actions =
     , moveRight : Model
     , moveUp : Model
     , moveDown : Model
-    , welcomeState : Model
-    , playingState : Model
     }

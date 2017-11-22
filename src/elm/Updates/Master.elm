@@ -20,21 +20,18 @@ update msg model =
 
 updateWithoutCurrying : Msg -> Model -> ( Model, Cmd Msg )
 updateWithoutCurrying msg model =
-    let 
-        actions = curryActions model
-    in
-        case msg of
-            TimeUpdate time ->
-                (timeUpdate (inSeconds time) model, Cmd.none)    
+    case msg of
+        TimeUpdate time ->
+            (timeUpdate (inSeconds time) model, Cmd.none)    
 
-            KeyDown keyCode ->
-                ( keyDown keyCode model actions, Cmd.none )
+        KeyDown keyCode ->
+            ( keyDown keyCode model (curryActions model), Cmd.none )
 
-            StartGame ->
-                ( actions.playingState, Cmd.none )
+        StartGame ->
+            ( { model | state = Welcome }, Cmd.none)
 
-            ShowWelcome ->
-                ( actions.welcomeState, Cmd.none )
+        ShowWelcome ->
+            ( { model | state = Playing }, Cmd.none)
 
 -- It is a bit annoying having to set up all these initial curried things. Probably there is something better to do here. Maybe the plan of having curried functions in the view is a bad one.
 initialModel : Model
@@ -61,7 +58,7 @@ keyDown keyCode model actions  =
         40 ->
                 actions.moveDown 
         27 ->
-                actions.playingState
+                { model | state = Playing }
         _ ->
                 model
 
