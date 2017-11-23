@@ -1,4 +1,4 @@
-module Updates.Enemies exposing (updateEnemy, isOccupiedByEnemy)
+module Updates.Enemies exposing (updateEnemies, isOccupiedByEnemy)
 
 import Models.Models exposing (..)
 import Queue exposing (..)
@@ -13,6 +13,10 @@ processTopOfQueueAndReturnToQueue queue processor =
             Queue.enq (processor item) list 
         Nothing ->
             list
+
+updateEnemies :  Float -> Model -> Model
+updateEnemies milliseconds model = 
+    { model | enemies = processTopOfQueueAndReturnToQueue model.enemies (updateEnemy model milliseconds) }
 
 updateEnemy : Model -> Float -> (Enemy -> Enemy)
 updateEnemy model milliseconds =
