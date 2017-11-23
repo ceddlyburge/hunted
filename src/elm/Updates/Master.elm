@@ -53,11 +53,10 @@ timeUpdate : Float -> Model -> Model
 timeUpdate milliseconds model  =
       case model.state of
         Playing ->
-            (updateEnemies milliseconds model)
+            updateEnemies milliseconds model
             |> checkGameOver
         _ ->
             model 
-
 
 checkGameOver : Model -> Model
 checkGameOver model =
