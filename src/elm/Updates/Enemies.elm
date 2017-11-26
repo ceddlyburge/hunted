@@ -9,53 +9,47 @@ type alias EnemyUpdate =
     , desiredPosition : Position
     }
 
+-- functors (fmap) take a function that takes a value and returns a value, returning a function that both takes and returns a value + context
+-- monads  (liftM) take a function that takes a value and returns a value + context, returning a function that both takes and return a value + context
+-- applicatives (liftA) take a function + context, where the function takes a value and returns a value, returning a function that returns value + context
+-- no definition for something that takes a function that takes a value + context and returns a value, functions basically shouldn't take a context it seems
+
 -- (functor) work with a function that takes an enemy and returns an enemy (increaseEnergyFromTime)
 fmap : (Enemy -> Enemy) -> (EnemyUpdate -> EnemyUpdate)
 fmap enemyFunction =
     (\enemyUpdate -> { enemyUpdate | enemy = enemyFunction enemyUpdate.enemy })
 
--- functors (fmap) take a function that takes a value and returns a value, returning a function that both takes and returns a value + context
--- monads  (liftM) take a function that takes a value and returns a value + context, returning a function that both takes and return a value + context
--- applicatives (liftA) take a function + context, where the function takes a value and returns a value, returning a function that returns value + context
--- no definition for something that takes a function that takes a value + context and returns a value
--- functions basically shouldn't take a context it seems
-
 -- (monad) work with a function that takes an enemy and returns an enemyUpdate (desiredPosition)
 
--- work with a function that takes an enemyUpdate and returns an enemy (decreaseEnergyFromMovement)
+-- (no defintion) work with a function that takes an enemyUpdate and returns an enemy (decreaseEnergyFromMovement)
 mapf : (EnemyUpdate -> Enemy) -> (EnemyUpdate -> EnemyUpdate)
 mapf enemyFunction =
     (\enemyUpdate -> { enemyUpdate | enemy = enemyFunction enemyUpdate })
-
--- increase energy (milliseconds)
--- get desired position (current position, player position, probably energy)
--- set new position (desired position, list of enemies)
--- decrease energy (originalPosition, newposition)
 
 updateEnemy2 : Model -> Float -> (EnemyUpdate -> EnemyUpdate)
 updateEnemy2 model milliseconds =
     fmap (increaseEnemyEnergy milliseconds)
     >> desiredEnemyPosition2 model.position
-    >> moveEnemyIfPossible model.enemies
-    >> mapf decreaseEnergy
+    >> mapf (moveEnemyIfPossible model.enemies)
+    >> mapf resetEnergyIfMoved
 
 desiredEnemyPosition2 : Position -> EnemyUpdate -> EnemyUpdate
 desiredEnemyPosition2 playerPosition enemyUpdate =
     { enemyUpdate | desiredPosition = desiredEnemyPosition enemyUpdate.enemy.position playerPosition}
 
-moveEnemyIfPossible : Queue Enemy -> EnemyUpdate -> EnemyUpdate
+moveEnemyIfPossible : Queue Enemy -> EnemyUpdate -> Enemy
 moveEnemyIfPossible enemies enemyUpdate =
     if (canEnemyMove enemyUpdate.enemy enemyUpdate.desiredPosition enemies ) then
-        { enemyUpdate | enemy = moveEnemy enemyUpdate.enemy enemyUpdate.desiredPosition }
+        moveEnemy enemyUpdate.enemy enemyUpdate.desiredPosition 
     else
-        enemyUpdate
+        enemyUpdate.enemy
 
 moveEnemy : Enemy -> Position -> Enemy 
 moveEnemy enemy newPosition =
         { enemy | position = newPosition }
 
-decreaseEnergy : EnemyUpdate -> Enemy
-decreaseEnergy  enemyUpdate =
+resetEnergyIfMoved : EnemyUpdate -> Enemy
+resetEnergyIfMoved  enemyUpdate =
    if (enemyUpdate.enemy.position == enemyUpdate.originalPosition) then
        enemyUpdate.enemy
    else
