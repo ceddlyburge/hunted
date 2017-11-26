@@ -3,6 +3,40 @@ module Updates.Enemies exposing (updateEnemies, isOccupiedByEnemy)
 import Models.Models exposing (..)
 import Queue exposing (..)
 
+type alias EnemyUpdate =
+    { enemy : Enemy
+    , originalPosition : Position
+    , desiredPosition : Position
+    , newPosition : Position
+    }
+
+-- work with a function that takes an enemy and returns an enemy (increaseEnergyFromTime)
+fmap : (Enemy -> Enemy) -> (EnemyUpdate -> EnemyUpdate)
+fmap enemyFunction =
+    (\enemyUpdate -> {enemyUpdate | enemy = enemyFunction enemyUpdate.enemy })
+
+
+-- work with a function that takes an enemy and returns an enemyUpdate (desiredPosition)
+
+-- work with a function that takes an enemyUpdate and returns an enemy (decreaseEnergyFromMovement)
+
+-- increase energy (milliseconds)
+-- get desired position (current position, player position, probably energy)
+-- set new position (desired position, list of enemies)
+-- decrease energy (originalPosition, newposition)
+
+updateEnemy2 : Model -> Float -> (EnemyUpdate -> EnemyUpdate)
+updateEnemy2 model milliseconds =
+    fmap (increaseEnemyEnergy milliseconds)
+    -->> desiredEnemyPosition2 model.position
+    -->> updateEnemyPositionAndEnergy model.enemies model.position
+
+desiredEnemyPosition2 : Position -> EnemyUpdate -> EnemyUpdate
+desiredEnemyPosition2 playerPosition enemyUpdate =
+    { enemyUpdate | desiredPosition = desiredEnemyPosition enemyUpdate.enemy.position playerPosition}
+
+
+
 processTopOfQueueAndReturnToQueue : Queue a -> (a -> a) -> Queue a
 processTopOfQueueAndReturnToQueue queue processor =
     let
