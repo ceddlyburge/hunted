@@ -28,13 +28,20 @@ fmap enemyFunction =
 updateEnemy2 : Model -> Float -> (EnemyUpdate -> EnemyUpdate)
 updateEnemy2 model milliseconds =
     fmap (increaseEnemyEnergy milliseconds)
-    -->> desiredEnemyPosition2 model.position
+    >> desiredEnemyPosition2 model.position
+    >> newEnemyPosition model.enemies
     -->> updateEnemyPositionAndEnergy model.enemies model.position
 
 desiredEnemyPosition2 : Position -> EnemyUpdate -> EnemyUpdate
 desiredEnemyPosition2 playerPosition enemyUpdate =
     { enemyUpdate | desiredPosition = desiredEnemyPosition enemyUpdate.enemy.position playerPosition}
 
+newEnemyPosition : Queue Enemy -> EnemyUpdate -> EnemyUpdate
+newEnemyPosition  enemies enemyUpdate =
+    if (canEnemyMove enemyUpdate.enemy enemyUpdate.desiredPosition enemies ) then
+        { enemyUpdate | newPosition = enemyUpdate.desiredPosition }
+    else
+        enemyUpdate
 
 
 processTopOfQueueAndReturnToQueue : Queue a -> (a -> a) -> Queue a
