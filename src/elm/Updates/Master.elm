@@ -28,10 +28,10 @@ updateWithoutCurrying msg model =
             ( keyDown keyCode model (curryPlayerActions model), Cmd.none )
 
         StartGame ->
-            ( { model | state = Welcome }, Cmd.none)
+            ( { model | state = Playing }, Cmd.none)
 
         ShowWelcome ->
-            ( { model | state = Playing }, Cmd.none)
+            ( initialModel, Cmd.none)
 
 keyDown : KeyCode -> Model -> Actions -> Model
 keyDown keyCode model actions  =

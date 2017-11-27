@@ -26,12 +26,19 @@ mapf : (EnemyUpdate -> Enemy) -> (EnemyUpdate -> EnemyUpdate)
 mapf enemyFunction =
     (\enemyUpdate -> { enemyUpdate | enemy = enemyFunction enemyUpdate })
 
-updateEnemy2 : Model -> Float -> (EnemyUpdate -> EnemyUpdate)
+initialEnemyUpdate : Enemy -> EnemyUpdate
+initialEnemyUpdate enemy =
+    EnemyUpdate enemy enemy.position (Position -1 -1) -- these -1s are bad, should use a maybe instead
+
+updateEnemy2 : Model -> Float -> (Enemy -> Enemy)
 updateEnemy2 model milliseconds =
-    fmap (increaseEnemyEnergy milliseconds)
+    initialEnemyUpdate
+    >> fmap (increaseEnemyEnergy milliseconds)
     >> desiredEnemyPosition2 model.position
     >> mapf (moveEnemyIfPossible model.enemies)
     >> mapf resetEnergyIfMoved
+    >> returnEnemy
+
 
 desiredEnemyPosition2 : Position -> EnemyUpdate -> EnemyUpdate
 desiredEnemyPosition2 playerPosition enemyUpdate =
@@ -59,6 +66,11 @@ resetEnergy : Enemy -> Enemy
 resetEnergy  enemy =
     { enemy | energy = 0 }
 
+returnEnemy : EnemyUpdate -> Enemy
+returnEnemy  enemyUpdate =
+    enemyUpdate.enemy
+
+
 processTopOfQueueAndReturnToQueue : Queue a -> (a -> a) -> Queue a
 processTopOfQueueAndReturnToQueue queue processor =
     let
@@ -72,7 +84,7 @@ processTopOfQueueAndReturnToQueue queue processor =
 
 updateEnemies :  Float -> Model -> Model
 updateEnemies milliseconds model = 
-    { model | enemies = processTopOfQueueAndReturnToQueue model.enemies (updateEnemy model milliseconds) }
+    { model | enemies = processTopOfQueueAndReturnToQueue model.enemies (updateEnemy2 model milliseconds) }
 
 updateEnemy : Model -> Float -> (Enemy -> Enemy)
 updateEnemy model milliseconds =
