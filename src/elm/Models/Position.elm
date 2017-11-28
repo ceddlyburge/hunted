@@ -1,4 +1,5 @@
 module Models.Position exposing (..)
+
 type alias Position = 
     { x: Int
     , y : Int }
