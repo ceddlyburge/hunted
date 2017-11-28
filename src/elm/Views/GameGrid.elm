@@ -1,6 +1,7 @@
 module Views.GameGrid exposing (curryModel)
 
 import Models.Position exposing (..)
+import Models.Enemy exposing (..)
 import Html exposing (Html, text)
 import Svg exposing (svg, polygon, circle, rect)
 import Svg.Attributes exposing (version, viewBox, points, fill, width, height, x, y)

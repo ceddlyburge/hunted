@@ -1,6 +1,7 @@
 module Models.Models exposing (..)
 
 import Models.Position exposing (..)
+import Models.Enemy exposing (..)
 import Queue exposing (..)
 import Html exposing (Html, text)
 import Time exposing (Time)
@@ -19,11 +20,6 @@ type State
 
 type alias Level =
     { size : Int
-    }
-
-type alias Enemy =
-    { position : Position
-    , energy : Float
     }
 
 type alias Model =
