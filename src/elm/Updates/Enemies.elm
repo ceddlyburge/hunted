@@ -1,34 +1,15 @@
 module Updates.Enemies exposing (updateEnemies, isOccupiedByEnemy)
 
+import Updates.EnemyUpdate exposing (..)
 import Models.Models exposing (..)
 import Queue exposing (..)
 
-type alias EnemyUpdate =
-    { enemy : Enemy
-    , originalPosition : Position
-    , desiredPosition : Position
-    }
-
--- functors (fmap) take a function that takes a value and returns a value, returning a function that both takes and returns a value + context
--- monads  (liftM) take a function that takes a value and returns a value + context, returning a function that both takes and return a value + context
--- applicatives (liftA) take a function + context, where the function takes a value and returns a value, returning a function that returns value + context
--- no definition for something that takes a function that takes a value + context and returns a value, functions basically shouldn't take a context it seems
-
--- (functor) work with a function that takes an enemy and returns an enemy (increaseEnergyFromTime)
-fmap : (Enemy -> Enemy) -> (EnemyUpdate -> EnemyUpdate)
-fmap enemyFunction =
-    (\enemyUpdate -> { enemyUpdate | enemy = enemyFunction enemyUpdate.enemy })
-
--- (monad) work with a function that takes an enemy and returns an enemyUpdate (desiredPosition)
-
--- (no defintion) work with a function that takes an enemyUpdate and returns an enemy (decreaseEnergyFromMovement)
-mapf : (EnemyUpdate -> Enemy) -> (EnemyUpdate -> EnemyUpdate)
-mapf enemyFunction =
-    (\enemyUpdate -> { enemyUpdate | enemy = enemyFunction enemyUpdate })
-
+-- level 1
 updateEnemies :  Float -> Model -> Model
 updateEnemies milliseconds model = 
-    { model | enemies = processTopOfQueueAndReturnToQueue model.enemies (updateEnemy2 model milliseconds) }
+    { model | enemies = processTopOfQueueAndReturnToQueue model.enemies (updateEnemy model milliseconds) }
+
+-- level 2
 
 processTopOfQueueAndReturnToQueue : Queue a -> (a -> a) -> Queue a
 processTopOfQueueAndReturnToQueue queue processor =
@@ -41,14 +22,16 @@ processTopOfQueueAndReturnToQueue queue processor =
         Nothing ->
             list
 
-updateEnemy2 : Model -> Float -> (Enemy -> Enemy)
-updateEnemy2 model milliseconds =
+updateEnemy : Model -> Float -> (Enemy -> Enemy)
+updateEnemy model milliseconds =
     initialEnemyUpdate
     >> fmap (increaseEnemyEnergy milliseconds)
-    >> desiredEnemyPosition2 model.position
+    >> setDesiredEnemyPosition model.position
     >> mapf (moveEnemyIfPossible model.enemies)
     >> mapf resetEnergyIfMoved
-    >> returnEnemy
+    >> enemy
+
+-- level 3
 
 initialEnemyUpdate : Enemy -> EnemyUpdate
 initialEnemyUpdate enemy =
@@ -58,8 +41,8 @@ increaseEnemyEnergy : Float -> Enemy -> Enemy
 increaseEnemyEnergy milliseconds enemy =
     { enemy | energy = enemy.energy + milliseconds }
 
-desiredEnemyPosition2 : Position -> EnemyUpdate -> EnemyUpdate
-desiredEnemyPosition2 playerPosition enemyUpdate =
+setDesiredEnemyPosition : Position -> EnemyUpdate -> EnemyUpdate
+setDesiredEnemyPosition playerPosition enemyUpdate =
     { enemyUpdate | desiredPosition = desiredEnemyPosition enemyUpdate.enemy.position playerPosition}
 
 moveEnemyIfPossible : Queue Enemy -> EnemyUpdate -> Enemy
@@ -76,12 +59,7 @@ resetEnergyIfMoved  enemyUpdate =
    else
        resetEnergy enemyUpdate.enemy
 
-returnEnemy : EnemyUpdate -> Enemy
-returnEnemy  enemyUpdate =
-    enemyUpdate.enemy
-
-
--- level 2
+-- level 4
 desiredEnemyPosition : Position -> Position -> Position
 desiredEnemyPosition enemyPosition playerPosition =
     Position 
