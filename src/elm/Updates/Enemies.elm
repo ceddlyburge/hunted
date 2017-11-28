@@ -83,20 +83,3 @@ moveTowards current target =
 isOccupiedByEnemy : Position -> Queue Enemy -> Bool
 isOccupiedByEnemy position enemies =
     List.any (positionsEqual position) (Queue.toList enemies)
-
--- updateEnemyPositionAndEnergy : Queue Enemy -> Position -> Enemy -> Enemy
--- updateEnemyPositionAndEnergy  enemies playerPosition enemy =
---     let 
---         newPosition = desiredEnemyPosition enemy.position playerPosition
---     in
---         if (canEnemyMove enemy newPosition enemies ) then
---             { enemy |
---                 position = newPosition 
---                 , energy = 0 }
---         else
---             enemy
-
--- updateEnemy : Model -> Float -> (Enemy -> Enemy)
--- updateEnemy model milliseconds =
---     increaseEnemyEnergy milliseconds
---     >> updateEnemyPositionAndEnergy model.enemies model.position
