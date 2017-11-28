@@ -10,7 +10,7 @@ updateEnemies milliseconds model =
     { model | enemies = processTopOfQueueAndReturnToQueue model.enemies (updateEnemy model milliseconds) }
 
 -- level 2
-
+-- this should be added as a method in the queue module
 processTopOfQueueAndReturnToQueue : Queue a -> (a -> a) -> Queue a
 processTopOfQueueAndReturnToQueue queue processor =
     let
@@ -22,6 +22,7 @@ processTopOfQueueAndReturnToQueue queue processor =
         Nothing ->
             list
 
+-- we could have different types of enemies that update in different ways. This would probably be setup at the start of a level, with this function being added as a property to the Enemy type
 updateEnemy : Model -> Float -> (Enemy -> Enemy)
 updateEnemy model milliseconds =
     initialEnemyUpdate
@@ -32,10 +33,6 @@ updateEnemy model milliseconds =
     >> enemy
 
 -- level 3
-
-initialEnemyUpdate : Enemy -> EnemyUpdate
-initialEnemyUpdate enemy =
-    EnemyUpdate enemy enemy.position (Position -1 -1) -- these -1s are bad, should use a maybe instead
 
 increaseEnemyEnergy : Float -> Enemy -> Enemy
 increaseEnemyEnergy milliseconds enemy =

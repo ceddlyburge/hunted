@@ -25,6 +25,9 @@ mapf : (EnemyUpdate -> Enemy) -> (EnemyUpdate -> EnemyUpdate)
 mapf enemyFunction =
     (\enemyUpdate -> { enemyUpdate | enemy = enemyFunction enemyUpdate })
 
+initialEnemyUpdate : Enemy -> EnemyUpdate
+initialEnemyUpdate enemy =
+    EnemyUpdate enemy enemy.position (Position -1 -1) -- these -1s are bad, should use a maybe instead
 
 enemy : EnemyUpdate -> Enemy
 enemy  enemyUpdate =
