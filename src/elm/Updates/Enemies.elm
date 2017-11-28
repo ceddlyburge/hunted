@@ -78,7 +78,7 @@ resetEnergy : Enemy -> Enemy
 resetEnergy  enemy =
     { enemy | energy = 0 }
 
---level 3
+--level 5
 
 moveTowards : Int -> Int -> Int
 moveTowards current target =
@@ -89,17 +89,16 @@ moveTowards current target =
     else
         current
 
-
-
-
 isOccupiedByEnemy : Position -> Queue Enemy -> Bool
 isOccupiedByEnemy position enemies =
     List.any (enemyPositionEqual position) (Queue.toList enemies)
 
+-- level 6
 enemyPositionEqual : Position -> Enemy -> Bool
 enemyPositionEqual position enemy =
     positionsEqual position enemy.position
 
+-- level 7
 positionsEqual : Position -> Position -> Bool
 positionsEqual position1 position2 =
     position1.x == position2.x && position1.y == position2.y
