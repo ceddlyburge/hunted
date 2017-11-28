@@ -7,12 +7,12 @@ type alias Enemy =
     , energy : Float
     }
 
-enemyPositionEqual : Position -> Enemy -> Bool
-enemyPositionEqual position enemy =
-    positionsEqual position enemy.position
+positionsEqual : Position -> Enemy -> Bool
+positionsEqual position enemy =
+    Models.Position.equals position enemy.position
 
-moveEnemy : Enemy -> Position -> Enemy 
-moveEnemy enemy newPosition =
+setPosition : Enemy -> Position -> Enemy 
+setPosition enemy newPosition =
         { enemy | position = newPosition }
 
 resetEnergy : Enemy -> Enemy
