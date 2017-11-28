@@ -69,14 +69,6 @@ canEnemyMove : Enemy -> Position -> Queue Enemy -> Bool
 canEnemyMove enemy desiredPosition enemies =
     (enemy.energy >= 2) && (isOccupiedByEnemy desiredPosition enemies == False)
 
-moveEnemy : Enemy -> Position -> Enemy 
-moveEnemy enemy newPosition =
-        { enemy | position = newPosition }
-
-resetEnergy : Enemy -> Enemy
-resetEnergy  enemy =
-    { enemy | energy = 0 }
-
 --level 5
 
 moveTowards : Int -> Int -> Int
@@ -91,11 +83,6 @@ moveTowards current target =
 isOccupiedByEnemy : Position -> Queue Enemy -> Bool
 isOccupiedByEnemy position enemies =
     List.any (enemyPositionEqual position) (Queue.toList enemies)
-
--- level 6
-enemyPositionEqual : Position -> Enemy -> Bool
-enemyPositionEqual position enemy =
-    positionsEqual position enemy.position
 
 -- updateEnemyPositionAndEnergy : Queue Enemy -> Position -> Enemy -> Enemy
 -- updateEnemyPositionAndEnergy  enemies playerPosition enemy =
