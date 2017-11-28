@@ -4,6 +4,7 @@ import Updates.PlayerActions exposing (curryPlayerActions)
 import Updates.Enemies exposing (updateEnemies, isOccupiedByEnemy)
 import Views.GameGrid exposing (..)
 import Models.Models exposing (..)
+import Models.Position exposing (..)
 
 import Queue exposing (..)
 import Html exposing (Html, text)

@@ -1,6 +1,7 @@
 module Updates.EnemyUpdate exposing (..)
 
 import Models.Models exposing (..)
+import Models.Position exposing (..)
 
 type alias EnemyUpdate =
     { enemy : Enemy

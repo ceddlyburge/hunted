@@ -1,6 +1,7 @@
 module Models.Models exposing (..)
-import Queue exposing (..)
 
+import Models.Position exposing (..)
+import Queue exposing (..)
 import Html exposing (Html, text)
 import Time exposing (Time)
 import Keyboard exposing (KeyCode)
@@ -19,10 +20,6 @@ type State
 type alias Level =
     { size : Int
     }
-
-type alias Position = 
-    { x: Int
-    , y : Int }
 
 type alias Enemy =
     { position : Position

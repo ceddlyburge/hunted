@@ -2,6 +2,7 @@ module Updates.Enemies exposing (updateEnemies, isOccupiedByEnemy)
 
 import Updates.EnemyUpdate exposing (..)
 import Models.Models exposing (..)
+import Models.Position exposing (..)
 import Queue exposing (..)
 
 -- level 1
@@ -94,11 +95,6 @@ isOccupiedByEnemy position enemies =
 enemyPositionEqual : Position -> Enemy -> Bool
 enemyPositionEqual position enemy =
     positionsEqual position enemy.position
-
--- level 7
-positionsEqual : Position -> Position -> Bool
-positionsEqual position1 position2 =
-    position1.x == position2.x && position1.y == position2.y
 
 -- updateEnemyPositionAndEnergy : Queue Enemy -> Position -> Enemy -> Enemy
 -- updateEnemyPositionAndEnergy  enemies playerPosition enemy =

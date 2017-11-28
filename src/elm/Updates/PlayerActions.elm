@@ -1,6 +1,7 @@
 module Updates.PlayerActions exposing (curryPlayerActions)
 
 import Models.Models exposing (..)
+import Models.Position exposing (..)
 
 curryPlayerActions : Model -> Actions
 curryPlayerActions model =
