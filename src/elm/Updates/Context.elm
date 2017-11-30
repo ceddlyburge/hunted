@@ -11,12 +11,41 @@ type Context value context =
 
 -- (functor) work with a function that takes a value and returns a value
 fmap : (value -> value) -> (Context value context -> Context value context)
-fmap valueFunction =
-    (\context -> 
+fmap valueToValueFunction =
+    wrapFunctionInContext valueToValueFunction
+    -- (\context -> 
+    --     case context of
+    --         Context value context ->
+    --             Context (valueFunction value) context )
+
+wrapFunctionInContext : (value -> value) -> Context value context -> Context value context
+wrapFunctionInContext valueFunction context =
         case context of
             Context value context ->
-                Context (valueFunction value) context )
+                Context (valueFunction value) context
 
--- (monad) work with a function that takes an enemy and returns an enemyUpdate (desiredPosition)
+-- (monad) work with a function that takes a value and returns a value and context
+-- this throws away any existing context and replaces it with that returned by the function
+liftM : (value -> Context value context) -> (Context value context -> Context value context)
+liftM valueToContextFunction =
+    wrapFunctionInputInContext valueToContextFunction
+    -- (\context2 -> 
+    --     case context2 of
+    --         Context value context ->
+    --             valueToContextFunction value )
 
--- (no defintion) work with a function that takes an enemyUpdate and returns an enemy (decreaseEnergyFromMovement)
+wrapFunctionInputInContext : (value -> Context value context) -> Context value context -> Context value context
+wrapFunctionInputInContext valueToContextFunction context =
+    case context of
+        Context value context ->
+            valueToContextFunction value
+
+-- applicatives (liftA) take a function + context, where the function takes a value and returns a value, returning a function that returns value + context
+
+-- (no defintion that I know of) work with a function that takes a value and context and returns a value
+-- mapf : (Context value context -> value) -> (Context value context -> Context value context)
+-- mapf contextToValueFunction =
+--     (\context2 -> 
+--         case context2 of
+--             Context value context ->
+--                 valueToContextFunction value )
