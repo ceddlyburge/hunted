@@ -10,8 +10,8 @@ type ValueAndContext value context =
 -- no definition for something that takes a function that takes a value + context and returns a value, functions basically shouldn't take a context it seems
 
 -- (functor) work with a function that takes a value and returns a value
-fmap : (value -> value) -> (ValueAndContext value context -> ValueAndContext value context)
-fmap valueToValueFunction =
+map : (value -> value) -> (ValueAndContext value context -> ValueAndContext value context)
+map valueToValueFunction =
     wrapFunctionInContext valueToValueFunction
 
 wrapFunctionInContext : (value -> value) -> ValueAndContext value context -> ValueAndContext value context
@@ -34,8 +34,9 @@ wrapFunctionInputInContextAndDiscardExistingContext valueToContextFunction conte
 -- applicatives (liftA) take a function + context, where the function takes a value and returns a value, returning a function that returns value + context
 
 -- (no defintion that I know of) work with a function that takes a value and context and returns a value
-mapf : (ValueAndContext value context -> value) -> (ValueAndContext value context -> ValueAndContext value context)
-mapf contextToValueFunction =
+-- called it mapf to indicate it is kind of the opposite of fmap
+mapReturn : (ValueAndContext value context -> value) -> (ValueAndContext value context -> ValueAndContext value context)
+mapReturn contextToValueFunction =
     wrapFunctionOutputInContext contextToValueFunction
     -- (\context2 -> 
     --     case context2 of
