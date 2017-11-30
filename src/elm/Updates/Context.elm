@@ -31,7 +31,16 @@ wrapFunctionInputInContextAndDiscardExistingContext valueToContextFunction conte
         ValueAndContext value context ->
             valueToContextFunction value
 
--- applicatives (liftA) take a function + context, where the function takes a value and returns a value, returning a function that returns value + context
+-- applicatives (liftA) work with a (function + context) and a (value + contect), where the function takes a value and returns a value, returning a value + context
+-- function  context is discarded. This type doesn't seem to make a very useful applicative.
+liftA : ValueAndContext (value -> value) context -> (ValueAndContext value context -> ValueAndContext value context)
+liftA valueFunctionAndContext =
+    case valueFunctionAndContext of
+        ValueAndContext valueFunction contextToDiscard ->
+            (\context2 -> 
+                case context2 of
+                    ValueAndContext value context ->
+                        ValueAndContext (valueFunction value) context )
 
 -- (no defintion that I know of) work with a function that takes a value and context and returns a value
 -- called it mapf to indicate it is kind of the opposite of fmap
