@@ -1,7 +1,7 @@
 module Updates.Context exposing (..)
 
-type Context a b =
-    ValueAndContext a b
+type Context value context =
+    Context value context
 
 
 -- functors (fmap) take a function that takes a value and returns a value, returning a function that both takes and returns a value + context
@@ -10,12 +10,12 @@ type Context a b =
 -- no definition for something that takes a function that takes a value + context and returns a value, functions basically shouldn't take a context it seems
 
 -- (functor) work with a function that takes a value and returns a value
-fmap : (a -> a) -> (Context a b -> Context a b)
+fmap : (value -> value) -> (Context value context -> Context value context)
 fmap valueFunction =
     (\context -> 
         case context of
-            ValueAndContext a b ->
-                ValueAndContext (valueFunction a) b )
+            Context value context ->
+                Context (valueFunction value) context )
 
 -- (monad) work with a function that takes an enemy and returns an enemyUpdate (desiredPosition)
 
