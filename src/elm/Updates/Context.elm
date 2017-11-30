@@ -20,7 +20,7 @@ wrapFunctionInContext valueFunction context =
             ValueAndContext value context ->
                 ValueAndContext (valueFunction value) context
 
--- (monad) work with a function that takes a value and returns a value and context
+-- (monad) work with a function that takes a value and returns a ValueAndContext
 liftM : (value -> ValueAndContext value context) -> (ValueAndContext value context -> ValueAndContext value context)
 liftM valueToContextFunction =
     wrapFunctionInputInContextAndDiscardExistingContext valueToContextFunction
@@ -31,8 +31,7 @@ wrapFunctionInputInContextAndDiscardExistingContext valueToContextFunction conte
         ValueAndContext value context ->
             valueToContextFunction value
 
--- applicatives (liftA) work with a (function + context) and a (value + contect), where the function takes a value and returns a value, returning a value + context
--- function  context is discarded. This type doesn't seem to make a very useful applicative.
+-- applicatives (liftA) work with a (function + context), where the function takes a value and returns a value
 liftA : ValueAndContext (value -> value) context -> (ValueAndContext value context -> ValueAndContext value context)
 liftA valueFunctionAndContext =
     case valueFunctionAndContext of
@@ -43,7 +42,6 @@ liftA valueFunctionAndContext =
                         ValueAndContext (valueFunction value) context )
 
 -- (no defintion that I know of) work with a function that takes a value and context and returns a value
--- called it mapf to indicate it is kind of the opposite of fmap
 mapReturn : (ValueAndContext value context -> value) -> (ValueAndContext value context -> ValueAndContext value context)
 mapReturn contextToValueFunction =
     wrapFunctionOutputInContext contextToValueFunction
