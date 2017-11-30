@@ -13,10 +13,6 @@ type ValueAndContext value context =
 fmap : (value -> value) -> (ValueAndContext value context -> ValueAndContext value context)
 fmap valueToValueFunction =
     wrapFunctionInContext valueToValueFunction
-    -- (\context -> 
-    --     case context of
-    --         Context value context ->
-    --             Context (valueFunction value) context )
 
 wrapFunctionInContext : (value -> value) -> ValueAndContext value context -> ValueAndContext value context
 wrapFunctionInContext valueFunction context =
@@ -28,10 +24,6 @@ wrapFunctionInContext valueFunction context =
 liftM : (value -> ValueAndContext value context) -> (ValueAndContext value context -> ValueAndContext value context)
 liftM valueToContextFunction =
     wrapFunctionInputInContextAndDiscardExistingContext valueToContextFunction
-    -- (\context2 -> 
-    --     case context2 of
-    --         Context value context ->
-    --             valueToContextFunction value )
 
 wrapFunctionInputInContextAndDiscardExistingContext : (value -> ValueAndContext value context) -> ValueAndContext value context -> ValueAndContext value context
 wrapFunctionInputInContextAndDiscardExistingContext valueToContextFunction context =
