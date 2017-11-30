@@ -36,19 +36,12 @@ liftA : ValueAndContext (value -> value) context -> (ValueAndContext value conte
 liftA valueFunctionAndContext =
     case valueFunctionAndContext of
         ValueAndContext valueFunction contextToDiscard ->
-            (\context2 -> 
-                case context2 of
-                    ValueAndContext value context ->
-                        ValueAndContext (valueFunction value) context )
+            wrapFunctionInContext valueFunction
 
 -- (no defintion that I know of) work with a function that takes a value and context and returns a value
 mapReturn : (ValueAndContext value context -> value) -> (ValueAndContext value context -> ValueAndContext value context)
 mapReturn contextToValueFunction =
     wrapFunctionOutputInContext contextToValueFunction
-    -- (\context2 -> 
-    --     case context2 of
-    --         Context value context ->
-    --             Context (contextToValueFunction context2) context )
 
 wrapFunctionOutputInContext : (ValueAndContext value context -> value) -> ValueAndContext value context -> ValueAndContext value context
 wrapFunctionOutputInContext contextToValueFunction context =
