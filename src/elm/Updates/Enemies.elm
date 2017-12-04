@@ -28,10 +28,10 @@ processTopOfQueueAndReturnToQueue queue processor =
 updateEnemy : Model -> Float -> (Enemy -> Enemy)
 updateEnemy model milliseconds =
     initialEnemyUpdate
-    >> fmap (increaseEnemyEnergy milliseconds)
+    >> map (increaseEnemyEnergy milliseconds)
     >> setDesiredEnemyPosition model.position
-    >> mapf (moveEnemyIfPossible model.enemies)
-    >> mapf resetEnergyIfMoved
+    >> mapReturn (moveEnemyIfPossible model.enemies)
+    >> mapReturn resetEnergyIfMoved
     >> enemy
 
 -- level 3

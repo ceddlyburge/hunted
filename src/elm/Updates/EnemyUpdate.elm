@@ -17,15 +17,15 @@ type alias EnemyUpdate =
 -- no definition for something that takes a function that takes a value + context and returns a value, functions basically shouldn't take a context it seems
 
 -- (functor) work with a function that takes an enemy and returns an enemy (increaseEnergyFromTime)
-fmap : (Enemy -> Enemy) -> (EnemyUpdate -> EnemyUpdate)
-fmap enemyFunction =
+map : (Enemy -> Enemy) -> (EnemyUpdate -> EnemyUpdate)
+map enemyFunction =
     (\enemyUpdate -> { enemyUpdate | enemy = enemyFunction enemyUpdate.enemy })
 
 -- (monad) work with a function that takes an enemy and returns an enemyUpdate (desiredPosition)
 
 -- (no defintion) work with a function that takes an enemyUpdate and returns an enemy (decreaseEnergyFromMovement)
-mapf : (EnemyUpdate -> Enemy) -> (EnemyUpdate -> EnemyUpdate)
-mapf enemyFunction =
+mapReturn : (EnemyUpdate -> Enemy) -> (EnemyUpdate -> EnemyUpdate)
+mapReturn enemyFunction =
     (\enemyUpdate -> { enemyUpdate | enemy = enemyFunction enemyUpdate })
 
 initialEnemyUpdate : Enemy -> EnemyUpdate
