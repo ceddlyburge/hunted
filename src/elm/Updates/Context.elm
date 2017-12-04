@@ -1,8 +1,11 @@
+-- I found writing this class a useful exercise, but actually it isn't very useful, mainly because its too difficult to use.
+-- The problem is that its a union type (but with only one type in the union). However we still need to use a case statement to get access to the single unioned type, which is annoying.
+-- The other way of writing this module is done with a type alias (in EnemyUpdate), which is a lot easier to use. The disadvantage of this is that it is not generic, so you have to rewrite the class if you want to use it with different types.
+-- It feels like there should be a way of doing this in a convenient and generic way, but as far as I am aware there is not.
 module Updates.Context exposing (..)
 
 type ValueAndContext value context =
     ValueAndContext value context
-
 
 -- functors (fmap) take a function that takes a value and returns a value, returning a function that both takes and returns a value + context
 -- monads  (liftM) take a function that takes a value and returns a value + context, returning a function that both takes and return a value + context
