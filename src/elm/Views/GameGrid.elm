@@ -7,18 +7,20 @@ import Models.Models exposing (..)
 import Models.Position exposing (..)
 import Models.Enemy exposing (..)
 
+
 curryModel : Model -> Model
 curryModel model =
     let
         gridElemenSize =
-            100 // model.level.size  
+            100 // model.level.size
     in
-            { model | 
-            grid = (grid model.level.size model.level.size)
-            , backgroundGridElement = (gridElement gridElemenSize "#000000" ) 
-            , playerGridElement = (gridElement gridElemenSize "#d9d9d9" model.position) 
-            , enemyGridElement = (enemyGridElement gridElemenSize "#ff6666") 
-        }    
+        { model
+            | grid = (grid model.level.size model.level.size)
+            , backgroundGridElement = (gridElement gridElemenSize "#000000")
+            , playerGridElement = (gridElement gridElemenSize "#d9d9d9" model.position)
+            , enemyGridElement = (enemyGridElement gridElemenSize "#ff6666")
+        }
+
 
 addCoordToAll : Int -> List Int -> List Position
 addCoordToAll n coords =
@@ -34,16 +36,19 @@ grid n m =
         List.map (\c -> addCoordToAll c coords) coords
             |> List.foldl (++) []
 
+
 gridElement : Int -> String -> Position -> Html Msg
-gridElement gridElementSize gridFill position  =
-    rect 
-    [ 
-        x (toString (position.x * gridElementSize + 1)), 
-        y (toString (position.y * gridElementSize + 1)), 
-        width (toString (gridElementSize - 2)), 
-        height (toString (gridElementSize - 2)),
-        fill gridFill ] []
+gridElement gridElementSize gridFill position =
+    rect
+        [ x (toString (position.x * gridElementSize + 1))
+        , y (toString (position.y * gridElementSize + 1))
+        , width (toString (gridElementSize - 2))
+        , height (toString (gridElementSize - 2))
+        , fill gridFill
+        ]
+        []
+
 
 enemyGridElement : Int -> String -> (Enemy -> Html Msg)
-enemyGridElement gridElementSize gridFill = 
+enemyGridElement gridElementSize gridFill =
     (\enemy -> gridElement gridElementSize gridFill enemy.position)

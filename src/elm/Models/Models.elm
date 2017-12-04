@@ -7,20 +7,24 @@ import Html exposing (Html, text)
 import Time exposing (Time)
 import Keyboard exposing (KeyCode)
 
+
 type Msg
     = TimeUpdate Time
     | KeyDown KeyCode
     | StartGame
     | ShowWelcome
 
+
 type State
     = Welcome
     | Playing
     | GameOver
 
+
 type alias Level =
     { size : Int
     }
+
 
 type alias Model =
     { level : Level
@@ -32,6 +36,7 @@ type alias Model =
     , backgroundGridElement : Position -> Html Msg
     , enemyGridElement : Enemy -> Html Msg
     }
+
 
 type alias Actions =
     { moveLeft : Model

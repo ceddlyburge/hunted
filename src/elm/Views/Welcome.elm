@@ -5,6 +5,7 @@ import Html exposing (Html, text)
 import Html.Attributes exposing (style)
 import Html.Events
 
+
 welcome : Model -> Html Msg
 welcome model =
     Html.div

@@ -33,4 +33,3 @@ view model =
             GameOver ->
                 gameOver model
         ]
-

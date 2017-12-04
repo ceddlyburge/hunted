@@ -5,6 +5,7 @@ import Html exposing (Html, text)
 import Html.Attributes exposing (style)
 import Html.Events
 
+
 gameOver : Model -> Html Msg
 gameOver model =
     Html.div

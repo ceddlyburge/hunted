@@ -23,10 +23,6 @@ init =
     ( initialModel, Cmd.none )
 
 
-
--- SUBSCRIPTIONS
-
-
 subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.batch
