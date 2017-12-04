@@ -38,7 +38,7 @@ updateEnemy model milliseconds =
 updateEnemy2 : Model -> Float -> (Enemy -> Enemy)
 updateEnemy2 model milliseconds =
     initialEnemyUpdate2
-    -->> map (increaseEnemyEnergy milliseconds)
+    >> map (increaseEnemyEnergy milliseconds)
     -->> setDesiredEnemyPosition model.position
     -->> mapf (moveEnemyIfPossible model.enemies)
     -->> mapf resetEnergyIfMoved
@@ -53,6 +53,10 @@ increaseEnemyEnergy milliseconds enemy =
 setDesiredEnemyPosition : Position -> EnemyUpdate -> EnemyUpdate
 setDesiredEnemyPosition playerPosition enemyUpdate =
     { enemyUpdate | desiredPosition = desiredEnemyPosition enemyUpdate.enemy.position playerPosition}
+
+--setDesiredEnemyPosition2 : Position -> EnemyUpdate2 -> EnemyUpdate
+--setDesiredEnemyPosition2 playerPosition enemyUpdate =
+--    { enemyUpdate | desiredPosition = desiredEnemyPosition enemyUpdate.enemy.position playerPosition}
 
 moveEnemyIfPossible : Queue Enemy -> EnemyUpdate -> Enemy
 moveEnemyIfPossible enemies enemyUpdate =
