@@ -1,6 +1,7 @@
 module Updates.Enemies exposing (updateEnemies, isOccupiedByEnemy)
 
 import Updates.EnemyUpdate exposing (..)
+import Updates.Context exposing (..)
 import Models.Models exposing (..)
 import Models.Position exposing (..)
 import Models.Enemy exposing (..)
@@ -33,6 +34,15 @@ updateEnemy model milliseconds =
     >> mapf (moveEnemyIfPossible model.enemies)
     >> mapf resetEnergyIfMoved
     >> enemy
+
+updateEnemy2 : Model -> Float -> (Enemy -> Enemy)
+updateEnemy2 model milliseconds =
+    initialEnemyUpdate2
+    -->> map (increaseEnemyEnergy milliseconds)
+    -->> setDesiredEnemyPosition model.position
+    -->> mapf (moveEnemyIfPossible model.enemies)
+    -->> mapf resetEnergyIfMoved
+    >> enemy2
 
 -- level 3
 

@@ -11,6 +11,11 @@ type alias EnemyUpdate =
     , desiredPosition : Position
     }
 
+type alias EnemyUpdate2 =
+    { originalPosition : Position
+    , desiredPosition : Position
+    }
+
 -- functors (fmap) take a function that takes a value and returns a value, returning a function that both takes and returns a value + context
 -- monads  (liftM) take a function that takes a value and returns a value + context, returning a function that both takes and return a value + context
 -- applicatives (liftA) take a function + context, where the function takes a value and returns a value, returning a function that returns value + context
@@ -32,6 +37,15 @@ initialEnemyUpdate : Enemy -> EnemyUpdate
 initialEnemyUpdate enemy =
     EnemyUpdate enemy enemy.position (Position -1 -1) -- these -1s are bad, should use a maybe instead
 
+initialEnemyUpdate2 : Enemy -> ValueAndContext Enemy EnemyUpdate2
+initialEnemyUpdate2 enemy =
+    ValueAndContext enemy (EnemyUpdate2 enemy.position (Position -1 -1)) -- these -1s are bad, should use a maybe instead
+
 enemy : EnemyUpdate -> Enemy
 enemy  enemyUpdate =
     enemyUpdate.enemy
+
+enemy2 : ValueAndContext Enemy EnemyUpdate2 -> Enemy
+enemy2  enemyAndContext =
+        case enemyAndContext of
+            ValueAndContext value context -> value
