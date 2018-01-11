@@ -1,41 +1,24 @@
-# elm-webpack-game-quarter
+# Hunted
 
+Live:
+http://cuddlyburger.hunted.s3-website.eu-west-2.amazonaws.com/
 
 ## About this project
+
 A minimalist Elm Game together with Webpack and gulp tooling to easily develop, build for production and deploy to S3 with static site hosting (assuming subdomain configured)
 
 Fork this to get up and running with creating a minimalist game in Elm (without having to figure out all the tedious details around production builds + deploys)
 
-## Quarter Past
+## Hunted
 
-Quarter Past is a simple game of coordination, skill and not panicking.
+Hunted is a simple game written to develop my skills.
 
 It is written in Elm 0.18.
 
-Inspired/adapted from [an article](http://ohanhi.github.io/base-for-game-elm-017.html).
+Forked from James Porters version of the same thing, whilst pairing at a meetup
 
-But that article didn't really include an actual working game or the kinds of performance optimistation necessary for good performance on mobile.
 
-E.g. on selecting a cell, don't cause DOM change, do those on the animation frame
-
-    selectCell : Cell -> Model -> Model
-    selectCell cell model =
-        { model | pendingCell = Just cell }
-
-then when doing update on animation frame include:
-
-                    , cell =
-                        case model.pendingCell of
-                            Just c ->
-                                c
-
-                            Nothing ->
-                                model.cell
-                    , pendingCell = Nothing
-
-i.e. set new state + clear the pending/requested change.
-
-### Serve locally:
+## Serve locally:
 ```
 npm start
 ```
@@ -44,47 +27,38 @@ npm start
 * Will auto reload on changes
 
 
-### Build & bundle for prod:
+## Build & bundle for prod:
 ```
 npm run build
 ```
 
 * Files are saved into the `/dist` folder; will require web server due to paths (can't just open in browser)
 
-### Deploy (route 53, subdomain example; other options should be fine as very simple `dist/` )
+## Deploy 
 
-Having configured/created aws-config.json
+### Setup an S3 bucket for the site
 
-```
-gulp deploy
-```
+Create an AWS account and an S3 bucket.
 
-Needs S3 bucket ID (which matches sub domain)
+https://s3.console.aws.amazon.com/s3
 
-configuration of route 53
+Enable the bucket for static web site hosting.
 
-create record set
-name (must match s3 id)
-choose alias
-target should appear as option if subdomain + s3 bucket name match
+https://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteHosting.html
 
-will take a few minutes to actually work
+### Setup AWS command line
 
-### Deploy with now
+Install aws command line interface
 
-Install if required:
+https://aws.amazon.com/cli/
 
-```
-npm i -g now
-```
 
-To actually deploy
+Setup the aws command line tools
+`aws configure` on command line and type in the `AWS Access Key ID`, `AWS Secret Access Key` and `Default region name`. You can leave `Default output format` blank. 
+There is an annoying mapping between region code and region name, which you can look up here. Make sure they match. http://docs.aws.amazon.com/general/latest/gr/rande.html
 
-```
-cd dist
-now
-```
+### Use AWS command line to publish
 
-### Alternative deployments
+`aws s3 cp dist s3://cuddlyburger-hunted --recursive` on command line (replace `cuddlyburger-hunted` with your s3 bucket name).
 
-Whatever option selected must ensure that serving from route as js url is relative to `/` i.e. treat `dist` as root.
+This command should be run in the root of the repo, and will synchronise the dist folder (which you must build first withh 'npm run build' as described above) with the s3 bucket.
