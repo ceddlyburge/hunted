@@ -9,6 +9,11 @@ curryPlayerActions model =
     Actions (moveModelLeft model) (moveModelRight model) (moveModelUp model) (moveModelDown model)
 
 
+setTarget : Model -> Position -> Model
+setTarget model newTarget =
+    { model | playerTarget = newTarget }
+
+
 moveModelUp : Model -> Model
 moveModelUp model =
     { model | position = (moveUp model.position) }

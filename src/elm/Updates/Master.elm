@@ -87,6 +87,7 @@ initialModel =
     { level = Level 5
     , state = Welcome
     , position = Position 2 2
+    , playerTarget = Position 2 2
     , enemies = Queue.empty |> Queue.enq (Enemy (Position 0 0) 0.0) |> Queue.enq (Enemy (Position 4 4) 5.0)
     , grid = []
     , backgroundGridElement = (\p -> Html.p [] [])
