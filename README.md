@@ -3,14 +3,6 @@
 Live:
 http://cuddlyburger.hunted.s3-website.eu-west-2.amazonaws.com/
 
-## About this project
-
-A minimalist Elm Game together with Webpack and gulp tooling to easily develop, build for production and deploy to S3 with static site hosting (assuming subdomain configured)
-
-Fork this to get up and running with creating a minimalist game in Elm (without having to figure out all the tedious details around production builds + deploys)
-
-## Hunted
-
 Hunted is a simple game written to develop my skills.
 
 It is written in Elm 0.18.
@@ -19,15 +11,18 @@ Forked from James Porters version of the same thing, whilst pairing at a meetup
 
 
 ## Serve locally:
+
 ```
 npm start
 ```
+
 * Open [http://localhost:8080/](http://localhost:8080/)
 * The main Elm file is `src/elm/Game.elm`
 * Will auto reload on changes
 
 
 ## Build & bundle for prod:
+
 ```
 npm run build
 ```
