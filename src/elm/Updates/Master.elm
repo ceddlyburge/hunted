@@ -24,18 +24,24 @@ update msg model =
 updateWithoutCurrying : Msg -> Model -> ( Model, Cmd Msg )
 updateWithoutCurrying msg model =
     case msg of
+        ShowWelcome ->
+            ( initialModel, Cmd.none )
+
+        StartGame ->
+            ( { model | state = Playing }, Cmd.none )
+
         TimeUpdate time ->
             ( timeUpdate (inSeconds time) model, Cmd.none )
 
         KeyDown keyCode ->
             ( keyDown keyCode model (curryPlayerActions model), Cmd.none )
 
-        StartGame ->
-            ( { model | state = Playing }, Cmd.none )
+        GridElementClick position ->
+            ( gridElementClick position (curryPlayerActions model), Cmd.none )
 
-        ShowWelcome ->
-            ( initialModel, Cmd.none )
-
+gridElementClick : Position -> Actions -> Model
+gridElementClick position actions =
+    actions.moveTowards position
 
 keyDown : KeyCode -> Model -> Actions -> Model
 keyDown keyCode model actions =

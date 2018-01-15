@@ -58,5 +58,6 @@ movePositionTowards position targetPosition =
 
 moveTowards : Int -> Int -> Int
 moveTowards value targetValue =
-    if (value > targetValue) then value + 1 else value - 1
+    if (value == targetValue) then value
+    else if (value > targetValue) then value - 1 else value + 1
 

@@ -9,10 +9,11 @@ import Keyboard exposing (KeyCode)
 
 
 type Msg
-    = TimeUpdate Time
-    | KeyDown KeyCode
+    = ShowWelcome
     | StartGame
-    | ShowWelcome
+    | TimeUpdate Time
+    | KeyDown KeyCode
+    | GridElementClick Position 
 
 
 type State

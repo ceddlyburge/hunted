@@ -3,6 +3,7 @@ module Views.GameGrid exposing (curryModel)
 import Html exposing (Html, text)
 import Svg exposing (svg, polygon, circle, rect)
 import Svg.Attributes exposing (version, viewBox, points, fill, width, height, x, y)
+import Svg.Events exposing (onClick)
 import Models.Models exposing (..)
 import Models.Position exposing (..)
 import Models.Enemy exposing (..)
@@ -22,11 +23,6 @@ curryModel model =
         }
 
 
-addCoordToAll : Int -> List Int -> List Position
-addCoordToAll n coords =
-    List.map (\c -> { x = n, y = c }) coords
-
-
 grid : Int -> Int -> List Position
 grid n m =
     let
@@ -37,6 +33,11 @@ grid n m =
             |> List.foldl (++) []
 
 
+addCoordToAll : Int -> List Int -> List Position
+addCoordToAll n coords =
+    List.map (\c -> { x = n, y = c }) coords
+
+
 gridElement : Int -> String -> Position -> Html Msg
 gridElement gridElementSize gridFill position =
     rect
@@ -45,6 +46,7 @@ gridElement gridElementSize gridFill position =
         , width (toString (gridElementSize - 2))
         , height (toString (gridElementSize - 2))
         , fill gridFill
+        , Svg.Events.onClick (GridElementClick position)
         ]
         []
 
