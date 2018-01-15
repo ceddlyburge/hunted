@@ -30,7 +30,6 @@ type alias Model =
     { level : Level
     , state : State
     , position : Position
-    , playerTarget : Position 
     , enemies : Queue Enemy
     , grid : List Position
     , playerGridElement : Html Msg
@@ -44,4 +43,5 @@ type alias Actions =
     , moveRight : Model
     , moveUp : Model
     , moveDown : Model
+    , moveTowards : Position -> Model
     }

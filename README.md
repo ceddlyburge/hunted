@@ -61,4 +61,4 @@ There is an annoying mapping between region code and region name, which you can 
 
 `aws s3 cp dist s3://cuddlyburger-hunted --recursive` on command line (replace `cuddlyburger-hunted` with your s3 bucket name).
 
-This command should be run in the root of the repo, and will synchronise the dist folder (which you must build first withh 'npm run build' as described above) with the s3 bucket.
+This command should be run in the root of the repo, and will synchronise the dist folder (which you must build first withh 'npm run build' as described above) with the s3 bucket.	
