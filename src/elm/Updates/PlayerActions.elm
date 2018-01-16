@@ -3,7 +3,7 @@ module Updates.PlayerActions exposing (curryPlayerActions)
 import Models.Models exposing (..)
 import Models.Position exposing (..)
 
--- I thought I was currying these, but as there is only one parameter it looks like I am actually just callilng them and storing the result. That doesnt seem very clever.
+-- I thought I was currying these, but as there is only one parameter it looks like I am actually just calling them and storing the result. I could use lazy for this, but then I would be "forcing" the user to user force to evaluate them, so I@m sticking with it for the moment.
 curryPlayerActions : Model -> Actions
 curryPlayerActions model =
     Actions (moveModelLeft model) (moveModelRight model) (moveModelUp model) (moveModelDown model) (moveModelTowards model)
