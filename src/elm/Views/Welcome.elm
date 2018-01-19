@@ -15,7 +15,7 @@ welcome model =
         , Html.p []
             [ Html.text "Pacman/Snake/... ish game" ]
         , Html.p []
-            [ Html.text "Use the arrow keys to move." ]
+            [ Html.text "Use the arrow keys to move, or tap on a square" ]
         , Html.h2 [ Html.Events.onClick StartGame ]
             [ Html.text "Start" ]
         ]
