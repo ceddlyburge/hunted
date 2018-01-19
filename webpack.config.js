@@ -7,8 +7,12 @@ var ExtractTextPlugin = require( 'extract-text-webpack-plugin' );
 var CopyWebpackPlugin = require( 'copy-webpack-plugin' );
 var entryPath         = path.join( __dirname, 'src/static/index.js' );
 var outputPath        = path.join( __dirname, 'dist' );
+var SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
+const WebpackPwaManifest = require('webpack-pwa-manifest');
 
 console.log( 'WEBPACK GO!');
+
+const PUBLIC_PATH = '';  // webpack needs the trailing slash for output.publicPath
 
 // determine build env
 var TARGET_ENV = process.env.npm_lifecycle_event === 'build' ? 'production' : 'development';
@@ -19,8 +23,8 @@ var commonConfig = {
 
   output: {
     path:       outputPath,
-    filename: `/static/js/${outputFilename}`,
-    // publicPath: '/'
+    filename: `/static/js/${outputFilename}`
+    //publicPath: PUBLIC_PATH
   },
 
   resolve: {
@@ -42,6 +46,31 @@ var commonConfig = {
       template: 'src/static/index.html',
       inject:   'body',
       filename: 'index.html'
+    })
+    , new SWPrecacheWebpackPlugin(
+      {
+        cacheId: 'ceddlyburge/hunted',
+        dontCacheBustUrlsMatching: /\.\w{8}\./,
+        filename: 'service-worker.js',
+        minify: false,
+        navigateFallback: PUBLIC_PATH + 'index.html',
+        staticFileGlobsIgnorePatterns: [/\.map$/, /manifest\.json$/]
+      }
+    )
+    , new WebpackPwaManifest({
+      name: 'Hunted - a simple game',
+      short_name: 'Hunted',
+      description: 'A game developed in Elm, mainly as a means to learning new things',
+      background_color: '#ffffff',
+      theme_color: '#000000',
+      start_url: '/',
+      icons: [
+        {
+          src: path.resolve('src/static/img/android-icon.png'),
+          sizes: [192],
+          destination: path.join('static', 'img')
+        }
+      ]
     })
   ],
 

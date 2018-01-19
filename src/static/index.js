@@ -1,3 +1,6 @@
+//import registerServiceWorker from './registerServiceWorker';
+//require('./registerServiceWorker');
+
 // pull in styl
 require( './styles/main.styl' );
 
