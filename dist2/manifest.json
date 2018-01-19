@@ -1,0 +1,15 @@
+{
+    "short_name": "Hunted",
+    "name": "Hunted - a simple game",
+    "icons": [
+      {
+        "src": "static/img/android-icon.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      }
+    ],
+    "start_url": "./index.html",
+    "display": "standalone",
+    "theme_color": "#000000",
+    "background_color": "#ffffff"
+  }
