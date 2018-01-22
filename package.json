@@ -1,12 +1,12 @@
 {
-  "name": "elm-webpack-static-app-starter",
-  "description": "Opionated starter project for creating/deploying an Elm Game",
+  "name": "ceddlyburge-hunted",
+  "description": "Hunted, a simple game in Elm",
   "version": "0.0.1",
   "license": "MIT",
-  "author": "James Porter",
+  "author": "Cedd Burge",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jamesporter/elm-webpack-game-quarter"
+    "url": "https://github.com/ceddlyburge/hunted"
   },
   "scripts": {
     "start": "webpack-dev-server --hot --inline",
