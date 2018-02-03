@@ -1,13 +1,18 @@
 # Hunted
 
+[ ![Codeship Status for ceddlyburge/hunted](https://app.codeship.com/projects/4aaf7be0-dcb4-0135-eb8f-32499970d10e/status?branch=master)](https://app.codeship.com/projects/265643)
+
 Live:
 http://cuddlyburger.hunted.s3-website.eu-west-2.amazonaws.com/
+and
+https://jovial-golick-9ccc44.netlify.com/
 
 Hunted is a simple game written to develop my skills.
 
 It is written in Elm 0.18.
 
 Forked from James Porters version of the same thing, whilst pairing at a meetup
+
 
 
 ## Serve locally:
@@ -29,7 +34,15 @@ npm run build
 
 * Files are saved into the `/dist` folder; will require web server due to paths (can't just open in browser)
 
-## Deploy 
+## Deploy to Netlify
+
+This is very easy and I would recommend it.
+
+Simply create an account on Netlify, `npm run build` and then drag the contents of the dist folder in to the relevant Netlify web page. Its also https which means that the progressive web app features will work.
+
+Its also possible to set it up to build and auto update when you push to GitHub.
+
+## Deploy to Amazon
 
 ### Setup an S3 bucket for the site
 
