@@ -10,7 +10,7 @@
   },
   "scripts": {
     "start": "webpack-dev-server --hot --inline",
-    "build": "rimraf dist && webpack",
+    "build": "elm-package install -y && rimraf dist && webpack",
     "reinstall": "npm i rimraf && rimraf node_modules && npm i && elm package install",
     "webpack": "webpack -p"
   },
