@@ -1,6 +1,7 @@
 module PositionTests exposing (..)
 
 import Test exposing (..)
+import Fuzz exposing (float, int)
 import Expect
 import Models.Position exposing (..)
 
@@ -8,16 +9,16 @@ import Models.Position exposing (..)
 position : Test
 position  =
     describe "equals"
-        [ test "equal when x and y are the same" <|
-            \() ->
-                equals (Position 3 6) (Position 3 6)
+        [ fuzz2 int int "equal when x and y are the same" <|
+            \x y ->
+                equals (Position x y) (Position x y)
                     |> Expect.equal True
-        , test "not equal if x different" <|
-            \() ->
-                equals (Position 3 6) (Position 4 6)
+        , fuzz int "not equal if x different" <|
+            \y ->
+                equals (Position 3 y) (Position 4 y)
                     |> Expect.equal False
-        , test "not equal if y different" <|
-            \() ->
-                equals (Position 3 6) (Position 3 7)
+        , fuzz int "not equal if y different" <|
+            \x ->
+                equals (Position x 6) (Position x 7)
                     |> Expect.equal False
         ]
