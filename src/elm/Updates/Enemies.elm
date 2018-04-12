@@ -12,6 +12,10 @@ updateEnemies milliseconds model =
     { model | enemies = processTopOfQueueAndReturnToQueue model.enemies (updateEnemy model milliseconds) }
 
 
+isOccupiedByEnemy : Position -> Queue Enemy -> Bool
+isOccupiedByEnemy position enemies =
+    List.any (positionsEqual position) (Queue.toList enemies)
+
 
 -- this should be added as a method in the queue module
 
@@ -90,8 +94,3 @@ moveTowards current target =
         current + 1
     else
         current
-
-
-isOccupiedByEnemy : Position -> Queue Enemy -> Bool
-isOccupiedByEnemy position enemies =
-    List.any (positionsEqual position) (Queue.toList enemies)
