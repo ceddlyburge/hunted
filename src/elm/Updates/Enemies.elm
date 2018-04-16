@@ -9,30 +9,12 @@ import Queue exposing (..)
 
 updateEnemies : Float -> Model -> Model
 updateEnemies milliseconds model =
-    { model | enemies = processTopOfQueueAndReturnToQueue model.enemies (updateEnemy model milliseconds) }
+    { model | enemies = Queue.requeue (updateEnemy model milliseconds) model.enemies  }
 
 
 isOccupiedByEnemy : Position -> Queue Enemy -> Bool
 isOccupiedByEnemy position enemies =
     List.any (positionsEqual position) (Queue.toList enemies)
-
-
--- this should be added as a method in the queue module
-
-
-processTopOfQueueAndReturnToQueue : Queue a -> (a -> a) -> Queue a
-processTopOfQueueAndReturnToQueue queue processor =
-    let
-        ( maybeItem, list ) =
-            Queue.deq queue
-    in
-        case maybeItem of
-            Just item ->
-                Queue.enq (processor item) list
-
-            Nothing ->
-                list
-
 
 
 -- we could have different types of enemies that update in different ways. This would probably be setup at the start of a level, with this function being added as a property to the Enemy type
