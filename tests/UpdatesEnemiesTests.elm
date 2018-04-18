@@ -1,7 +1,7 @@
 module UpdatesEnemiesTests exposing (..)
 
 import Test exposing (..)
-import Fuzz exposing (int, intRange)
+import Fuzz exposing (int, intRange, floatRange)
 import Random exposing (maxInt)
 import Expect
 import Queue exposing (..)
@@ -20,7 +20,6 @@ import Html exposing (Html, text)
 -- that is quite a lot to test
 -- want to test via the public interface, but this makes it hard to do anything simple
 -- are there any fuzz type tests I could use?
---  enemy at front of queue always at end of queue afterwards
 --  enemy with energy below threshold doesn't move and energy increases by the milliseconds amount
 --  enemy with energy above threshold moves towards model position (maybe just have one enemy for this)
 
@@ -41,11 +40,22 @@ updateEnemiesTests  =
                 |> List.reverse
                 |> List.head
                 |> Expect.equal (Just enemy)
+            ,fuzz (floatRange 0 1.89) "Not enough energy to move" <|
+            \(energy) ->
+                let
+                    enemy = enemyWithEnergy energy
+                    energyIncrement = 0.1
+                in
+                Queue.empty
+                |> Queue.enq enemy
+                |> \enemies -> updateEnemies energyIncrement { anyModel | enemies = enemies }
+                |> \model -> model.enemies
+                |> Queue.deq
+                |> \(maybeEnemy, queue) -> Maybe.map positionAndEnergy maybeEnemy
+                |> \(maybePositionAndEnemy) -> Maybe.map (\record -> { positionsEqual = (positionsEqual record.position enemy), energy = record.energy}) maybePositionAndEnemy
+                |> Expect.equal (Just { positionsEqual = True, energy = energy + energyIncrement})
         ]
 
-
-anyEnemy : Enemy
-anyEnemy = Enemy (Position 0 0) 0
 
 isOccupiedByEnemyTests : Test
 isOccupiedByEnemyTests  =
@@ -68,9 +78,26 @@ isOccupiedByEnemyTests  =
                 |> Expect.equal False
         ]
 
+type alias PositionAndEnergy =
+    {
+        position : Position
+        , energy : Float
+    }
+
+positionAndEnergy : Enemy -> PositionAndEnergy
+positionAndEnergy enemy =
+    PositionAndEnergy enemy.position enemy.energy
+
+anyEnemy : Enemy
+anyEnemy = Enemy (Position 0 0) 0
+
 enemyWithPosition : Int -> Int -> Enemy
 enemyWithPosition x y  = 
     Enemy (Position x y) 0
+
+enemyWithEnergy : Float -> Enemy
+enemyWithEnergy energy  = 
+    Enemy (Position 0 0 ) energy
 
 -- this is an annoyance, Model has a lot of dependencies
 anyModel : Model
