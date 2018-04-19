@@ -107,7 +107,7 @@ positionAndEnergy enemy =
 
 positionEqualAndEnergy : Enemy -> PositionAndEnergy -> PositionEqualAndEnergy
 positionEqualAndEnergy enemy positionAndEnergy =
-    PositionEqualAndEnergy (positionsEqual positionAndEnergy.position enemy) positionAndEnergy.energy
+    PositionEqualAndEnergy (equals positionAndEnergy.position enemy) positionAndEnergy.energy
 
 
 -- this is an annoyance, Model has a lot of dependencies
