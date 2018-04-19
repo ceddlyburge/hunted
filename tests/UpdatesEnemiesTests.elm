@@ -43,16 +43,16 @@ updateEnemiesTests  =
             ,fuzz (floatRange 0 1.89) "Not enough energy to move" <|
             \(energy) ->
                 let
-                    enemy = enemyWithEnergy energy
+                    originalEnemy = enemyWithEnergy energy
                     energyIncrement = 0.1
                 in
                 Queue.empty
-                |> Queue.enq enemy
+                |> Queue.enq originalEnemy
                 |> \enemies -> updateEnemies energyIncrement { anyModel | enemies = enemies }
                 |> \model -> model.enemies
                 |> Queue.deq
                 |> \(maybeEnemy, queue) -> Maybe.map positionAndEnergy maybeEnemy
-                |> Maybe.map (positionEqualAndEnergy enemy)
+                |> Maybe.map (positionEqualAndEnergy originalEnemy.position)
                 |> Expect.equal (Just (PositionEqualAndEnergy True (energy + energyIncrement)))
         ]
 
@@ -105,7 +105,7 @@ positionAndEnergy : Enemy -> PositionAndEnergy
 positionAndEnergy enemy =
     PositionAndEnergy enemy.position enemy.energy
 
-positionEqualAndEnergy : Enemy -> PositionAndEnergy -> PositionEqualAndEnergy
+positionEqualAndEnergy : Position -> PositionAndEnergy -> PositionEqualAndEnergy
 positionEqualAndEnergy enemy positionAndEnergy =
     PositionEqualAndEnergy (equals positionAndEnergy.position enemy) positionAndEnergy.energy
 
