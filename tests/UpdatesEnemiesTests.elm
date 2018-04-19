@@ -52,8 +52,7 @@ updateEnemiesTests  =
                 |> \model -> model.enemies
                 |> Queue.deq
                 |> \(maybeEnemy, queue) -> Maybe.map positionAndEnergy maybeEnemy
-                |> Maybe.map (positionEqualAndEnergy originalEnemy.position)
-                |> Expect.equal (Just (PositionEqualAndEnergy True (energy + energyIncrement)))
+                |> Expect.equal (Just (PositionAndEnergy originalEnemy.position (originalEnemy.energy + energyIncrement)))
         ]
 
 
@@ -84,12 +83,6 @@ type alias PositionAndEnergy =
         , energy : Float
     }
 
-type alias PositionEqualAndEnergy =
-    {
-        positionEqual : Bool
-        , energy : Float
-    }
-
 anyEnemy : Enemy
 anyEnemy = Enemy (Position 0 0) 0
 
@@ -104,10 +97,6 @@ enemyWithEnergy energy  =
 positionAndEnergy : Enemy -> PositionAndEnergy
 positionAndEnergy enemy =
     PositionAndEnergy enemy.position enemy.energy
-
-positionEqualAndEnergy : Position -> PositionAndEnergy -> PositionEqualAndEnergy
-positionEqualAndEnergy enemy positionAndEnergy =
-    PositionEqualAndEnergy (equals positionAndEnergy.position enemy) positionAndEnergy.energy
 
 
 -- this is an annoyance, Model has a lot of dependencies
