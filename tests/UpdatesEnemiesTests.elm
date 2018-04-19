@@ -52,8 +52,8 @@ updateEnemiesTests  =
                 |> \model -> model.enemies
                 |> Queue.deq
                 |> \(maybeEnemy, queue) -> Maybe.map positionAndEnergy maybeEnemy
-                |> \(maybePositionAndEnemy) -> Maybe.map (\record -> { positionsEqual = (positionsEqual record.position enemy), energy = record.energy}) maybePositionAndEnemy
-                |> Expect.equal (Just { positionsEqual = True, energy = energy + energyIncrement})
+                |> Maybe.map (positionEqualAndEnergy enemy)
+                |> Expect.equal (Just (PositionEqualAndEnergy True (energy + energyIncrement)))
         ]
 
 
@@ -65,7 +65,7 @@ isOccupiedByEnemyTests  =
                 Queue.empty
                 |> Queue.enq (enemyWithPosition 0 0)
                 |> Queue.enq (enemyWithPosition x y)
-                |> \enemies -> isOccupiedByEnemy (Position x y) enemies
+                |> isOccupiedByEnemy (Position x y)
                 |> Expect.equal True
         , fuzz3 int int (intRange 1 Random.maxInt) "unoccupied" <|
             \x y delta ->
@@ -74,7 +74,7 @@ isOccupiedByEnemyTests  =
                 |> Queue.enq (enemyWithPosition (x - delta) (y - delta))
                 |> Queue.enq (enemyWithPosition (x + delta) (y - delta))
                 |> Queue.enq (enemyWithPosition (x - delta) (y + delta))
-                |> \enemies -> isOccupiedByEnemy (Position x y) enemies
+                |> isOccupiedByEnemy (Position x y)
                 |> Expect.equal False
         ]
 
@@ -84,9 +84,11 @@ type alias PositionAndEnergy =
         , energy : Float
     }
 
-positionAndEnergy : Enemy -> PositionAndEnergy
-positionAndEnergy enemy =
-    PositionAndEnergy enemy.position enemy.energy
+type alias PositionEqualAndEnergy =
+    {
+        positionEqual : Bool
+        , energy : Float
+    }
 
 anyEnemy : Enemy
 anyEnemy = Enemy (Position 0 0) 0
@@ -98,6 +100,15 @@ enemyWithPosition x y  =
 enemyWithEnergy : Float -> Enemy
 enemyWithEnergy energy  = 
     Enemy (Position 0 0 ) energy
+
+positionAndEnergy : Enemy -> PositionAndEnergy
+positionAndEnergy enemy =
+    PositionAndEnergy enemy.position enemy.energy
+
+positionEqualAndEnergy : Enemy -> PositionAndEnergy -> PositionEqualAndEnergy
+positionEqualAndEnergy enemy positionAndEnergy =
+    PositionEqualAndEnergy (positionsEqual positionAndEnergy.position enemy) positionAndEnergy.energy
+
 
 -- this is an annoyance, Model has a lot of dependencies
 anyModel : Model
