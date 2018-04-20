@@ -1,7 +1,7 @@
 module UpdatesEnemiesTests exposing (..)
 
 import Test exposing (..)
-import Fuzz exposing (int, intRange, floatRange)
+import Fuzz exposing (int, intRange, floatRange, oneOf, constant)
 import Random exposing (maxInt)
 import Expect
 import Queue exposing (..)
@@ -20,14 +20,24 @@ import Html exposing (Html, text)
 -- that is quite a lot to test
 -- want to test via the public interface, but this makes it hard to do anything simple
 -- are there any fuzz type tests I could use?
---  enemy with energy below threshold doesn't move and energy increases by the milliseconds amount
---  enemy with energy above threshold moves towards model position (maybe just have one enemy for this)
+-- enemy with energy above threshold moves towards model position (maybe just have one enemy for this)
+   -- fuzzing
+   -- can put the enemy anywhere
+   -- and the player anywhere else
+   -- need to make sure that these aren't the same
+   -- fuzz testing maybe not the best for this, could describe the algorithm in the tests
+      -- eg always move in direction of player, even if it is a long way away in one direction, but close in another
+        -- move diagonally
+        -- move in each of four directions
+-- enemy can't move although it wants to because another enemy in the way
+   -- isoccupied already tested, so can use it
+   -- can probably fuzz this and force cases where it is going to be blocked quite a bit of the time
 
 updateEnemiesTests : Test
 updateEnemiesTests  =
     describe "updateEnemies"
         [   fuzz (intRange 0 50) "Enemy at front of queue returned to back" <|
-            \(enemyCount) ->
+            \enemyCount ->
                 let
                     enemy = anyEnemy
                 in
@@ -41,7 +51,7 @@ updateEnemiesTests  =
                 |> List.head
                 |> Expect.equal (Just enemy)
             ,fuzz (floatRange 0 1.89) "Not enough energy to move" <|
-            \(energy) ->
+            \energy ->
                 let
                     originalEnemy = enemyWithEnergy energy
                     energyIncrement = 0.1
@@ -53,6 +63,19 @@ updateEnemiesTests  =
                 |> Queue.deq
                 |> \(maybeEnemy, queue) -> Maybe.map positionAndEnergy maybeEnemy
                 |> Expect.equal (Just (PositionAndEnergy originalEnemy.position (originalEnemy.energy + energyIncrement)))
+            ,fuzz5 int (intRange 1 5) (intRange 100 500) (oneOf [constant 1, constant -1]) (oneOf [constant 1, constant -1]) "Move closer to player in x and y directions, regardless of relative distance" <|
+            \xy deltaX deltaY signX signY ->
+                let
+                    originalEnemy = enemyWithEnoughEnergyToMoveAndPosition (xy + (deltaX * signX)) (xy + (deltaY * signY))
+                    playerPosition = Position xy xy
+                in
+                Queue.empty
+                |> Queue.enq originalEnemy
+                |> \enemies -> updateEnemies 0 { anyModel | enemies = enemies, position = playerPosition }
+                |> \model -> model.enemies
+                |> Queue.deq
+                |> \(maybeEnemy, queue) -> Maybe.map (\enemy -> enemy.position) maybeEnemy
+                |> Expect.equal (Just (Position (originalEnemy.position.x - signX) (originalEnemy.position.y - signY)))
         ]
 
 
@@ -85,6 +108,10 @@ type alias PositionAndEnergy =
 
 anyEnemy : Enemy
 anyEnemy = Enemy (Position 0 0) 0
+
+enemyWithEnoughEnergyToMoveAndPosition : Int -> Int -> Enemy
+enemyWithEnoughEnergyToMoveAndPosition x y  = 
+    Enemy (Position x y) 2
 
 enemyWithPosition : Int -> Int -> Enemy
 enemyWithPosition x y  = 
