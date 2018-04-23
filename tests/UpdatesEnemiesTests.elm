@@ -1,7 +1,7 @@
 module UpdatesEnemiesTests exposing (..)
 
 import Test exposing (..)
-import Fuzz exposing (int, intRange, floatRange, oneOf, constant)
+import Fuzz exposing (Fuzzer, int, intRange, floatRange, oneOf, constant)
 import Random exposing (maxInt)
 import Expect
 import Queue exposing (..)
@@ -63,7 +63,7 @@ updateEnemiesTests  =
                 |> Queue.deq
                 |> \(maybeEnemy, queue) -> Maybe.map positionAndEnergy maybeEnemy
                 |> Expect.equal (Just (PositionAndEnergy originalEnemy.position (originalEnemy.energy + energyIncrement)))
-            ,fuzz5 int (intRange 1 5) (intRange 100 500) (oneOf [constant 1, constant -1]) (oneOf [constant 1, constant -1]) "Move closer to player in x and y directions, regardless of relative distance" <|
+            ,fuzz5 int (intRange 1 5) (intRange 100 500) oneOrMinusOne oneOrMinusOne "Move closer to player in x and y directions, regardless of relative distance" <|
             \xy deltaX deltaY signX signY ->
                 let
                     originalEnemy = enemyWithEnoughEnergyToMoveAndPosition (xy + (deltaX * signX)) (xy + (deltaY * signY))
@@ -125,6 +125,9 @@ positionAndEnergy : Enemy -> PositionAndEnergy
 positionAndEnergy enemy =
     PositionAndEnergy enemy.position enemy.energy
 
+oneOrMinusOne : Fuzzer Int
+oneOrMinusOne = 
+    oneOf [constant 1, constant -1]
 
 -- this is an annoyance, Model has a lot of dependencies
 anyModel : Model
