@@ -68,14 +68,17 @@ updateEnemiesTests  =
                 let
                     originalEnemy = enemyWithEnoughEnergyToMoveAndPosition (xy + (deltaX * signX)) (xy + (deltaY * signY))
                     playerPosition = Position xy xy
+                    expectedPosition  = Position (originalEnemy.position.x - signX) (originalEnemy.position.y - signY)
+                    expectedEnergy = 0
+
                 in
                 Queue.empty
                 |> Queue.enq originalEnemy
                 |> \enemies -> updateEnemies 0 { anyModel | enemies = enemies, position = playerPosition }
                 |> \model -> model.enemies
                 |> Queue.deq
-                |> \(maybeEnemy, queue) -> Maybe.map (\enemy -> enemy.position) maybeEnemy
-                |> Expect.equal (Just (Position (originalEnemy.position.x - signX) (originalEnemy.position.y - signY)))
+                |> \(maybeEnemy, queue) -> Maybe.map positionAndEnergy maybeEnemy
+                |> Expect.equal (Just (PositionAndEnergy expectedPosition expectedEnergy))
         ]
 
 
