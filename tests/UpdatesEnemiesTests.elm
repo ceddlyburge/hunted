@@ -70,10 +70,9 @@ updateEnemiesTests  =
                     playerPosition = Position xy xy
                     expectedPosition  = Position (originalEnemy.position.x - signX) (originalEnemy.position.y - signY)
                     expectedEnergy = 0
-
                 in
                 Queue.empty
-                |> Queue.enq originalEnemy
+                |>  Queue.enq originalEnemy
                 |> \enemies -> updateEnemies 0 { anyModel | enemies = enemies, position = playerPosition }
                 |> \model -> model.enemies
                 |> Queue.deq

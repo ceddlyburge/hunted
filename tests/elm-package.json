@@ -1,7 +1,7 @@
 {
     "version": "1.0.0",
     "summary": "Test Suites",
-    "repository": "https://github.com/jamesporter/elm-webpack-game-quarter.git",
+    "repository": "https://github.com/ceddlyburge/hunted.git",
     "license": "MIT",
     "source-directories": [
         "..\\src\\elm",
