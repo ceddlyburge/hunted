@@ -31,6 +31,9 @@ type alias EnemyUpdate =
     , desiredPosition : Position
     }
 
+mapValueAndContext : (a -> a) -> (ValueAndContext a b -> ValueAndContext a b)
+mapValueAndContext functionToMap =
+    (\(ValueAndContext value context) -> ValueAndContext (functionToMap value) context)
 
 map : (Enemy -> Enemy) -> (EnemyUpdate -> EnemyUpdate)
 map enemyFunction =
