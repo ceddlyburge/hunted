@@ -25,18 +25,18 @@ mapTest  =
         ]
     
 -- map takes an Value -> Value function, and returns a (ValueAndContext Value a)-> (ValueAndContext Value a) function. The returned function applies the passed function to the value parameter of the ValueAndContext
-valueAndContextMapTest : Test
-valueAndContextMapTest  =
-    describe "map2"
-        [ fuzz2 float string "map applies function to value and leaves context unchanged" <|
-            \value context ->
-                let
-                    functionToMap = \x -> x / 2
-                in
-                    ValueAndContext value context
-                    |> Updates.EnemyUpdate.mapValueAndContext functionToMap
-                    |> Expect.equal (ValueAndContext (functionToMap value) context)
-        ]
+-- valueAndContextMapTest : Test
+-- valueAndContextMapTest  =
+--     describe "map2"
+--         [ fuzz2 float string "map applies function to value and leaves context unchanged" <|
+--             \value context ->
+--                 let
+--                     functionToMap = \x -> x / 2
+--                 in
+--                     ValueAndContext value context
+--                     |> Updates.EnemyUpdate.mapValueAndContext functionToMap
+--                     |> Expect.equal (ValueAndContext (functionToMap value) context)
+--         ]
 
 -- mapReturn takes an enemyupdate -> enemy function, and returns a enemyUpdate -> enemyUpdate function. The returned function applies the passed function to the enemy parameter if enemyUpdate
 -- what is this in functional language, if anything.
