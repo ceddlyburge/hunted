@@ -25,6 +25,16 @@ valueAndContextTest  =
                     valueAndContext
                     |> map identity
                     |> Expect.equal (identity(valueAndContext))
+        ,fuzz2 float string "composing map(f) and map(g) is the same as mapping compose(f, g) (functor law)" <|
+            \value context ->
+                let 
+                    valueAndContext = ValueAndContext value context    
+                    f = \x -> x / 2
+                    g = \x -> x + 1
+                in
+                    valueAndContext
+                    |> (map f >> map g)
+                    |> Expect.equal (map (f >> g) valueAndContext)
         ]
 
 identity : a -> a
