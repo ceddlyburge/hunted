@@ -1,17 +1,10 @@
 module Updates.Enemies exposing (updateEnemies, isOccupiedByEnemy)
 
-import Updates.ValueAndContext exposing (..)
+import Updates.EnemyUpdate exposing (..)
 import Models.Models exposing (..)
 import Models.Position exposing (..)
 import Models.Enemy exposing (..)
 import Queue exposing (..)
-
-type alias EnemyUpdatePosition =
-    { originalPosition : Position
-    , desiredPosition : Position
-    }
-
---type EnemyUpdate = ValueAndContext Enemy EnemyUpdatePosition
 
 
 updateEnemies : Float -> Model -> Model
@@ -24,10 +17,6 @@ isOccupiedByEnemy position enemies =
     List.any (positionsEqual position) (Queue.toList enemies)
 
 
-initialEnemyUpdate : Enemy -> (ValueAndContext Enemy EnemyUpdatePosition)
-initialEnemyUpdate enemy =
-    ValueAndContext enemy (EnemyUpdatePosition enemy.position (Position -1 -1))
-
 -- we could have different types of enemies that update in different ways. This would probably be setup at the start of a level, with this function being added as a property to the Enemy type
 
 
@@ -36,10 +25,9 @@ updateEnemy model milliseconds =
     initialEnemyUpdate
         >> map (increaseEnemyEnergy milliseconds)
         >> setDesiredEnemyPosition model.position
-        >> restoreContext (moveEnemyIfPossible model.enemies)
-        >> resetEnergyIfMoved
-        -->> restoreContext resetEnergyIfMoved
-        -->> enemy
+        >> mapReturn (moveEnemyIfPossible model.enemies)
+        >> mapReturn resetEnergyIfMoved
+        >> enemy
 
 
 increaseEnemyEnergy : Float -> Enemy -> Enemy
@@ -47,24 +35,25 @@ increaseEnemyEnergy milliseconds enemy =
     { enemy | energy = enemy.energy + milliseconds }
 
 
-setDesiredEnemyPosition : Position -> (ValueAndContext Enemy EnemyUpdatePosition) -> (ValueAndContext Enemy EnemyUpdatePosition)
-setDesiredEnemyPosition playerPosition (ValueAndContext enemy enemyUpdatePosition) =
-    ValueAndContext enemy {enemyUpdatePosition | desiredPosition = desiredEnemyPosition enemy.position playerPosition }
+setDesiredEnemyPosition : Position -> EnemyUpdate -> EnemyUpdate
+setDesiredEnemyPosition playerPosition enemyUpdate =
+    { enemyUpdate | desiredPosition = desiredEnemyPosition enemyUpdate.enemy.position playerPosition }
 
-moveEnemyIfPossible : Queue Enemy -> (ValueAndContext Enemy EnemyUpdatePosition) -> Enemy
-moveEnemyIfPossible enemies (ValueAndContext enemy enemyUpdatePosition) =
-    if (canEnemyMove enemy enemyUpdatePosition.desiredPosition enemies) then
-        setPosition enemy enemyUpdatePosition.desiredPosition
+
+moveEnemyIfPossible : Queue Enemy -> EnemyUpdate -> Enemy
+moveEnemyIfPossible enemies enemyUpdate =
+    if (canEnemyMove enemyUpdate.enemy enemyUpdate.desiredPosition enemies) then
+        setPosition enemyUpdate.enemy enemyUpdate.desiredPosition
     else
-        enemy
+        enemyUpdate.enemy
 
 
-resetEnergyIfMoved : (ValueAndContext Enemy EnemyUpdatePosition) -> Enemy
-resetEnergyIfMoved (ValueAndContext enemy enemyUpdatePosition) =
-    if (enemy.position == enemyUpdatePosition.originalPosition) then
-        enemy
+resetEnergyIfMoved : EnemyUpdate -> Enemy
+resetEnergyIfMoved enemyUpdate =
+    if (enemyUpdate.enemy.position == enemyUpdate.originalPosition) then
+        enemyUpdate.enemy
     else
-        resetEnergy enemy
+        resetEnergy enemyUpdate.enemy
 
 
 desiredEnemyPosition : Position -> Position -> Position

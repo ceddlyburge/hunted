@@ -18,7 +18,15 @@ map : (a -> a) -> (ValueAndContext a b -> ValueAndContext a b)
 map functionToMap =
     (\(ValueAndContext value context) -> ValueAndContext (functionToMap value) context)
 
+restoreContext : (ValueAndContext value context -> value) -> (ValueAndContext value context -> ValueAndContext value context)
+restoreContext contextToValueFunction =
+    addContextToReturn contextToValueFunction
 
+addContextToReturn : (ValueAndContext value context -> value) -> ValueAndContext value context -> ValueAndContext value context
+addContextToReturn contextToValueFunction context =
+    case context of
+        ValueAndContext value context2 ->
+            ValueAndContext (contextToValueFunction context) context2
 
 
 
@@ -36,11 +44,11 @@ map functionToMap =
 
 
 
--- -- functors (fmap) take a function that takes a value and returns a value, returning a function that both takes and returns a value + context
--- -- monads  (liftM) take a function that takes a value and returns a value + context, returning a function that both takes and return a value + context
--- -- applicatives (liftA) take a function + context, where the function takes a value and returns a value, returning a function that returns value + context
--- -- no definition for something that takes a function that takes a value + context and returns a value, functions basically shouldn't take a context it seems
--- -- (functor) work with a function that takes a value and returns a value
+-- functors (fmap) take a function that takes a value and returns a value, returning a function that both takes and returns a value + context
+-- monads  (liftM) take a function that takes a value and returns a value + context, returning a function that both takes and return a value + context
+-- applicatives (liftA) are for executing functions in a context (rather than executing a function on a value in a context). They take a function + context, where the function takes a value and returns a value, returning a function that returns value + context
+-- no definition for something that takes a function that takes a value + context and returns a value, functions basically shouldn't take a context it seems
+-- (functor) work with a function that takes a value and returns a value
 
 
 -- map : (value -> value) -> (ValueAndContext value context -> ValueAndContext value context)
