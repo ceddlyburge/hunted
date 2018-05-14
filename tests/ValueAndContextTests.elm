@@ -25,7 +25,7 @@ valueAndContextTest  =
                     valueAndContext
                     |> map identity
                     |> Expect.equal (identity(valueAndContext))
-        ,fuzz2 float string "composing map(f) and map(g) is the same as mapping compose(f, g) (functor law)" <|
+        ,fuzz2 float string "compose(map(f), map(g)) is the same as map(compose(f, g)) (functor law)" <|
             \value context ->
                 let 
                     valueAndContext = ValueAndContext value context    
@@ -35,6 +35,15 @@ valueAndContextTest  =
                     valueAndContext
                     |> (map f >> map g)
                     |> Expect.equal (map (f >> g) valueAndContext)
+        ,fuzz2 float string "restoreContext restores context to function that takes the context but does not return it" <|
+            \value context ->
+                let
+                    valueAndContext = ValueAndContext value context 
+                    functionToRestoreContextTo = \(ValueAndContext value context) -> value / 2
+                in
+                    valueAndContext
+                    |> restoreContext functionToRestoreContextTo
+                    |> Expect.equal (ValueAndContext (functionToRestoreContextTo valueAndContext) context)
         ]
 
 identity : a -> a
